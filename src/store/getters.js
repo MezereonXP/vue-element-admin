@@ -9,7 +9,13 @@ const getters = {
   name: state => state.user.name,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
+  email: state => state.user.email,
+  address: state => state.user.address,
+  phone_number: state => state.user.phone_number,
+  sex: state => state.user.sex,
+  age: state => state.user.age,
   permission_routes: state => state.permission.routes,
-  errorLogs: state => state.errorLog.logs
+  errorLogs: state => state.errorLog.logs,
+  id: state => state.user.id
 }
 export default getters

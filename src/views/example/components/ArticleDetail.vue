@@ -3,45 +3,43 @@
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
 
       <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status">
-        <CommentDropdown v-model="postForm.comment_disabled" />
+        <!-- <CommentDropdown v-model="postForm.comment_disabled" />
         <PlatformDropdown v-model="postForm.platforms" />
-        <SourceUrlDropdown v-model="postForm.source_uri" />
+        <SourceUrlDropdown v-model="postForm.source_uri" /> -->
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
-          Publish
+          发布
         </el-button>
         <el-button v-loading="loading" type="warning" @click="draftForm">
-          Draft
+          存为草稿
         </el-button>
       </sticky>
 
       <div class="createPost-main-container">
         <el-row>
-          <Warning />
+          <!-- <Warning /> -->
 
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
               <MDinput v-model="postForm.title" :maxlength="100" name="name" required>
-                Title
+                标题
               </MDinput>
             </el-form-item>
 
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="60px" label="Author:" class="postInfo-container-item">
-                    <el-select v-model="postForm.author" :remote-method="getRemoteUserList" filterable default-first-option remote placeholder="Search user">
-                      <el-option v-for="(item,index) in userListOptions" :key="item+index" :label="item" :value="item" />
-                    </el-select>
+                  <el-form-item label-width="60px" label="上传者:" class="postInfo-container-item">
+                    <el-input v-model="postForm.author.username" disabled />
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="10">
-                  <el-form-item label-width="120px" label="Publish Time:" class="postInfo-container-item">
-                    <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="Select date and time" />
+                  <el-form-item label-width="120px" label="最近一次编辑:" class="postInfo-container-item">
+                    <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="Select date and time" disabled />
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="6">
+                <!-- <el-col :span="6">
                   <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
                     <el-rate
                       v-model="postForm.importance"
@@ -52,16 +50,16 @@
                       style="display:inline-block"
                     />
                   </el-form-item>
-                </el-col>
+                </el-col> -->
               </el-row>
             </div>
           </el-col>
         </el-row>
 
-        <el-form-item style="margin-bottom: 40px;" label-width="70px" label="Summary:">
+        <!-- <el-form-item style="margin-bottom: 40px;" label-width="70px" label="Summary:">
           <el-input v-model="postForm.content_short" :rows="1" type="textarea" class="article-textarea" autosize placeholder="Please enter the content" />
           <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}words</span>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item prop="content" style="margin-bottom: 30px;">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
@@ -76,15 +74,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Tinymce from '@/components/Tinymce'
 import Upload from '@/components/Upload/SingleImage3'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { validURL } from '@/utils/validate'
-import { fetchArticle } from '@/api/article'
+import { createItem, fetchItem, updateItem } from '@/api/item'
 import { searchUser } from '@/api/remote-search'
-import Warning from './Warning'
-import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
+// import Warning from './Warning'
+// import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 
 const defaultForm = {
   status: 'draft',
@@ -97,12 +96,15 @@ const defaultForm = {
   id: undefined,
   platforms: ['a-platform'],
   comment_disabled: false,
-  importance: 0
+  importance: 0,
+  author: {
+    username: ''
+  }
 }
 
 export default {
   name: 'ArticleDetail',
-  components: { Tinymce, MDinput, Upload, Sticky, Warning, CommentDropdown, PlatformDropdown, SourceUrlDropdown },
+  components: { Tinymce, MDinput, Upload, Sticky },
   props: {
     isEdit: {
       type: Boolean,
@@ -150,6 +152,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'name',
+      'avatar',
+      'roles'
+    ]),
     contentShortLength() {
       return this.postForm.content_short.length
     },
@@ -159,10 +166,17 @@ export default {
       // back end return => "2013-06-25 06:59:25"
       // front end need timestamp => 1372114765000
       get() {
-        return (+new Date(this.postForm.display_time))
+        return this.postForm.updated_at * 1000
       },
       set(val) {
-        this.postForm.display_time = new Date(val)
+        console.log(this.postForm.updated_at)
+        if (val) {
+          const d = new Date(val)
+          const pad = (num) => String(num).padStart(2, '0')
+          const formatted = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+          this.postForm.updated_at = formatted
+          console.log(formatted)
+        }
       }
     }
   },
@@ -170,6 +184,12 @@ export default {
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
       this.fetchData(id)
+    } else {
+      this.postForm.author.username = this.name
+      const d = new Date()
+      const pad = (num) => String(num).padStart(2, '0')
+      const formatted = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+      this.postForm.updated_at = formatted
     }
 
     // Why need to make a copy of this.$route here?
@@ -179,13 +199,15 @@ export default {
   },
   methods: {
     fetchData(id) {
-      fetchArticle(id).then(response => {
+      fetchItem(id).then(response => {
         this.postForm = response.data
 
-        // just for test
-        this.postForm.title += `   Article Id:${this.postForm.id}`
-        this.postForm.content_short += `   Article Id:${this.postForm.id}`
+        // // just for test
+        // this.postForm.title += `   Article Id:${this.postForm.id}`
+        // this.postForm.content_short += `   Article Id:${this.postForm.id}`
 
+        console.log(this.postForm.author.username)
+        this.postForm.author_name = this.postForm.author.username
         // set tagsview title
         this.setTagsViewTitle()
 
@@ -196,27 +218,54 @@ export default {
       })
     },
     setTagsViewTitle() {
-      const title = 'Edit Article'
-      const route = Object.assign({}, this.tempRoute, { title: `${title}-${this.postForm.id}` })
+      const title = '编辑项目'
+      const route = Object.assign({}, this.tempRoute, { title: `${title}` })
       this.$store.dispatch('tagsView/updateVisitedView', route)
     },
     setPageTitle() {
-      const title = 'Edit Article'
-      document.title = `${title} - ${this.postForm.id}`
+      const title = '编辑项目'
+      document.title = `${title}`
+    },
+    createItem() {
+      // Call create API when adding a new article
+      createItem(this.postForm).then(() => {
+        this.$notify({
+          title: '成功',
+          message: '创建项目成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.loading = false
+      }).catch(err => {
+        console.log(err)
+        this.loading = false
+      })
     },
     submitForm() {
       console.log(this.postForm)
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$notify({
-            title: '成功',
-            message: '发布文章成功',
-            type: 'success',
-            duration: 2000
-          })
           this.postForm.status = 'published'
-          this.loading = false
+          if (this.isEdit) {
+            // Call update API when editing existing article
+            updateItem(this.postForm).then(() => {
+              this.$notify({
+                title: '成功',
+                message: '更新项目成功',
+                type: 'success',
+                duration: 2000
+              })
+              this.postForm.status = 'published'
+              this.loading = false
+            }).catch(err => {
+              console.log(err)
+              this.loading = false
+            })
+          } else {
+            // Call create API when adding a new article
+            this.createItem()
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -231,13 +280,35 @@ export default {
         })
         return
       }
-      this.$message({
-        message: '保存成功',
-        type: 'success',
-        showClose: true,
-        duration: 1000
-      })
-      this.postForm.status = 'draft'
+
+      this.loading = true
+      if (this.isEdit) {
+        this.postForm.status = 'draft'
+        // Call update API when editing existing article
+        updateItem(this.postForm).then(() => {
+          this.$message({
+            message: '保存成功',
+            type: 'success',
+            showClose: true,
+            duration: 1000
+          })
+          this.postForm.status = 'draft'
+          this.loading = false
+        }).catch(err => {
+          console.log(err)
+          this.loading = false
+        })
+      } else {
+        // Existing success message for new article
+        this.$message({
+          message: '保存成功',
+          type: 'success',
+          showClose: true,
+          duration: 1000
+        })
+        this.postForm.status = 'draft'
+        this.loading = false
+      }
     },
     getRemoteUserList(query) {
       searchUser(query).then(response => {
