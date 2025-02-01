@@ -174,6 +174,19 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/evaluation',
+    children: [
+      {
+        path: 'evaluation',
+        component: () => import('@/views/evaluation/index'),
+        name: 'Evaluation',
+        meta: { title: '实习评价', icon: 'user', roles: ['user'] }
+      }
+    ]
+  },
   // {
   //   path: '/documentation',
   //   component: Layout,
