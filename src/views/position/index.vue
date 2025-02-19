@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <el-button type="primary" icon="el-icon-plus" @click="showAddPositionDialog">新增岗位</el-button>
     <el-button type="success" icon="el-icon-refresh" @click="refresh">刷新</el-button>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading..." style="width: 100%;margin-top: 20px;">
       <el-table-column prop="id" label="编号" width="50" />
@@ -17,16 +16,15 @@
       <el-table-column prop="updated_at" label="更新时间" :formatter="formatDate" sortable />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="checkEditPermission()" type="primary" icon="el-icon-edit" @click="editPosition(scope.row)">编辑</el-button>
-          <el-button v-if="checkDeletePermission()" type="danger" icon="el-icon-delete" @click="deletePosition(scope.row)">删除</el-button>
           <el-button v-if="checkViewPermission()" type="info" icon="el-icon-view" @click="viewPosition(scope.row)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination
       background
-      layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 30, 40]"
+      layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       :page-size="pageSize"
       :current-page="currentPage"
@@ -36,33 +34,7 @@
       @prev-click="handlePrevClick"
       @next-click="handleNextClick"
     />
-    <el-dialog
-      title="新增岗位"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="岗位名称">
-          <el-input v-model="form.title" />
-        </el-form-item>
-        <el-form-item label="实习企业">
-          <el-input v-model="form.company_name" />
-        </el-form-item>
-        <el-form-item label="岗位地点">
-          <el-input v-model="form.location" />
-        </el-form-item>
-        <el-form-item label="岗位薪资">
-          <el-input v-model="form.salary_description" />
-        </el-form-item>
-        <el-form-item label="岗位职责">
-          <Tinymce ref="editor" v-model="form.description" :height="400" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addPosition">确定</el-button>
-      </div>
-    </el-dialog>
+
     <el-dialog
       title="岗位详情"
       :visible.sync="viewDialogVisible"
@@ -94,45 +66,14 @@
         <el-button @click="viewDialogVisible = false">关闭</el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      title="编辑岗位"
-      :visible.sync="editDialogVisible"
-      width="30%"
-    >
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="岗位名称">
-          <el-input v-model="form.title" />
-        </el-form-item>
-        <el-form-item label="实习企业">
-          <el-input v-model="form.company_name" />
-        </el-form-item>
-        <el-form-item label="岗位地点">
-          <el-input v-model="form.location" />
-        </el-form-item>
-        <el-form-item label="岗位薪资">
-          <el-input v-model="form.salary_description" />
-        </el-form-item>
-        <el-form-item label="岗位职责">
-          <Tinymce ref="editor" v-model="form.description" :height="400" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="updatePosition">确定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchList, createJob, updateJob, deleteJob } from '@/api/job'
-import Tinymce from '@/components/Tinymce'
+import { fetchList } from '@/api/job'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
-  components: {
-    Tinymce
-  },
   data() {
     return {
       list: [],
@@ -163,6 +104,7 @@ export default {
   methods: {
     handleSizeChange(size) {
       this.pageSize = size
+      this.currentPage = 1
       this.getList()
     },
     handleCurrentChange(page) {
@@ -190,58 +132,15 @@ export default {
         this.currentPage = response.page
       })
     },
-    showAddPositionDialog() {
-      this.dialogVisible = true
-    },
-    addPosition() {
-      this.dialogVisible = false
-      createJob(this.form).then(response => {
-        this.$message.success('新增岗位成功')
-        this.getList()
-      })
-    },
     refresh() {
       this.getList()
-    },
-    checkEditPermission() {
-      return this.roles.includes('admin')
-    },
-    checkDeletePermission() {
-      return this.roles.includes('admin')
     },
     checkViewPermission() {
       return true
     },
-    editPosition(row) {
-      this.editDialogVisible = true
-      this.form = row
-    },
-    deletePosition(row) {
-      this.$confirm('确定删除该岗位吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteJob(row.id).then(response => {
-          this.$message.success('删除岗位成功')
-          this.getList()
-        }).catch(() => {
-          this.$message.error('删除岗位失败')
-        })
-      })
-    },
     viewPosition(row) {
       this.viewDialogVisible = true
       this.form = row
-    },
-    updatePosition() {
-      this.editDialogVisible = false
-      updateJob(this.form).then(response => {
-        this.$message.success('更新岗位成功')
-        this.getList()
-      }).catch(() => {
-        this.$message.error('更新岗位失败')
-      })
     },
     formatDate(row, column) {
       return moment(row[column.property]).utc().format('YYYY-MM-DD HH:mm:ss')

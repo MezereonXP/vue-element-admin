@@ -183,6 +183,8 @@ export default {
         this.tableData = res.companies
         if (res.code === 20000) {
           this.$message.success('获取数据成功')
+          this.total = res.total
+          this.currentPage = res.page
         } else {
           this.$message.error('获取数据失败')
         }

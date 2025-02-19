@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <h1>考勤打卡</h1>
-    <div v-if="this.name" class="attendance-container">
+    <div v-if="isAdmin" class="attendance-container">
       <div class="check-in-info">
-        <div v-if="this.name" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div>
+        <div v-if="isAdmin" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div>
         <div v-else>
           <el-button type="primary" :disabled="isMarkedDate(selectedDate)" @click="checkIn">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button>
           <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" show-icon />
@@ -37,17 +37,27 @@ import { checkIn, getAttendance } from '@/api/user'
 export default {
   components: {
   },
+
+  filters: {
+    convertDate(date) {
+      return new Date(date).toLocaleDateString()
+    },
+    keepDay(date) {
+      return date.split('-')[2]
+    }
+  },
   data() {
     return {
       user: null, // This should be set to the current user object
       message: '',
       selectedDate: new Date(), // Default to today's date
       attendanceList: [],
-      listLoading: false
+      listLoading: false,
+      isAdmin: this.roles.includes('admin')
     }
   },
   computed: {
-    ...mapGetters(['name'])
+    ...mapGetters(['name', 'roles'])
   },
   created() {
     this.getAttendance()
@@ -81,14 +91,6 @@ export default {
         const recordDate = new Date(record.date)
         return recordDate.toDateString() === date.toDateString()
       })
-    }
-  },
-  filters: {
-    convertDate(date) {
-      return new Date(date).toLocaleDateString()
-    },
-    keepDay(date) {
-      return date.split('-')[2]
     }
   }
 }

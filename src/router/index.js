@@ -87,12 +87,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/intro',
+    meta: { title: '学校概况', icon: 'education', affix: true },
     children: [
       {
         path: 'intro',
         component: () => import('@/views/intro/index'),
         name: 'Intro',
         meta: { title: '学校概况', icon: 'education', affix: true }
+      },
+      {
+        path: 'intro/detail/:id(\\d+)',
+        component: () => import('@/views/intro/detail'),
+        name: 'IntroDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/intro/' }
       }
     ]
   },
@@ -100,12 +108,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/law',
+    meta: { title: '法律法规文件制度', icon: 'documentation', affix: true },
     children: [
       {
         path: 'law',
         component: () => import('@/views/law/index'),
         name: 'Law',
         meta: { title: '法律法规文件制度', icon: 'documentation', affix: true }
+      },
+      {
+        path: 'law/detail/:id(\\d+)',
+        component: () => import('@/views/law/detail'),
+        name: 'LawDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/law/' }
       }
     ]
   },
@@ -113,12 +129,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/org',
+    meta: { title: '组织架构', icon: 'tree', affix: true },
     children: [
       {
         path: 'org',
         component: () => import('@/views/org/index'),
         name: 'Org',
         meta: { title: '组织架构', icon: 'tree', affix: true }
+      },
+      {
+        path: 'org/detail/:id(\\d+)',
+        component: () => import('@/views/org/detail'),
+        name: 'OrgDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/org/' }
       }
     ]
   },
@@ -126,12 +150,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/approval',
+    meta: { title: '实习审批报备管理', icon: 'excel', affix: true },
     children: [
       {
         path: 'approval',
         component: () => import('@/views/approval/index'),
         name: 'Approval',
         meta: { title: '实习审批报备管理', icon: 'excel', affix: true }
+      },
+      {
+        path: 'approval/detail/:id(\\d+)',
+        component: () => import('@/views/approval/detail'),
+        name: 'ApprovalDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/approval/' }
       }
     ]
   },
@@ -139,12 +171,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/report',
+    meta: { title: '企业考察报告', icon: 'chart', affix: true },
     children: [
       {
         path: 'report',
         component: () => import('@/views/report/index'),
         name: 'Report',
         meta: { title: '企业考察报告', icon: 'chart', affix: true }
+      },
+      {
+        path: 'report/detail/:id(\\d+)',
+        component: () => import('@/views/report/detail'),
+        name: 'ReportDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/report/' }
       }
     ]
   },
@@ -152,12 +192,20 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/train',
+    meta: { title: '实习培训', icon: 'education', affix: true },
     children: [
       {
         path: 'train',
         component: () => import('@/views/train/index'),
         name: 'Train',
         meta: { title: '实习培训', icon: 'education', affix: true }
+      },
+      {
+        path: 'train/detail/:id(\\d+)',
+        component: () => import('@/views/train/detail'),
+        name: 'TrainDetail',
+        hidden: true,
+        meta: { title: '详情', affix: true, activeMenu: '/train/' }
       }
     ]
   },
@@ -171,6 +219,19 @@ export const constantRoutes = [
         component: () => import('@/views/attendance/index'),
         name: 'Attendance',
         meta: { title: '考勤打卡', icon: 'user', roles: ['user'] }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/position',
+    children: [
+      {
+        path: 'position',
+        component: () => import('@/views/position/index'),
+        name: 'Position',
+        meta: { title: '岗位列表', icon: 'list', roles: ['admin'] }
       }
     ]
   },
