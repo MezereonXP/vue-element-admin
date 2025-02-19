@@ -75,7 +75,8 @@ export default {
       page: 1,
       limit: 10,
       total: 0,
-      title: ''
+      title: '',
+      id: 0
     }
   },
   computed: {
@@ -160,6 +161,7 @@ export default {
       })
     },
     openEditor(row) {
+      this.id = row.id
       this.title = row.title
       this.editorContent = row.text
       this.editorVisible = true

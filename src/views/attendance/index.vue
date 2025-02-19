@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <h1>考勤打卡</h1>
-    <div v-if="isAdmin" class="attendance-container">
+    <div v-if="!isAdmin" class="attendance-container">
       <div class="check-in-info">
-        <div v-if="isAdmin" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div>
-        <div v-else>
+        <!-- <div v-if="isAdmin" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div> -->
+        <div>
           <el-button type="primary" :disabled="isMarkedDate(selectedDate)" @click="checkIn">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button>
           <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" show-icon />
           <!-- Add more check-in statistics here -->
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div v-else>
-      <el-alert title="请登录后进行考勤打卡。" type="warning" show-icon />
+      <el-alert title="您是管理员无需打卡" type="info" show-icon />
     </div>
 
   </div>
@@ -53,13 +53,14 @@ export default {
       selectedDate: new Date(), // Default to today's date
       attendanceList: [],
       listLoading: false,
-      isAdmin: this.roles.includes('admin')
+      isAdmin: false
     }
   },
   computed: {
     ...mapGetters(['name', 'roles'])
   },
   created() {
+    this.isAdmin = this.roles.includes('admin')
     this.getAttendance()
   },
   methods: {

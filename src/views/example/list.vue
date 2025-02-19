@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <!-- 使用各类信息过滤 -->
-    <el-row :gutter="20">
+    <el-row v-if="isAdmin" :gutter="20">
       <el-col :span="2">
         <el-select v-model="filterStatus" placeholder="选择状态" style="width: 100%;">
           <el-option label="所有状态" value="all" />
