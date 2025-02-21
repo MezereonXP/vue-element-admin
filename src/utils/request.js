@@ -49,9 +49,9 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 20000) {
       Message({
-        message: res.message || 'Error',
+        message: res.error || 'Error',
         type: 'error',
-        duration: 5 * 1000
+        duration: 3 * 1000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -68,12 +68,12 @@ service.interceptors.response.use(
         })
       } else if (res.code === 50008) {
         Message({
-          message: res.message || 'Error',
+          message: res.error || 'Error',
           type: 'error',
-          duration: 5 * 1000
+          duration: 3 * 1000
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.error || 'Error'))
     } else {
       return res
     }

@@ -85,3 +85,11 @@ export function uploadAvatar(data) {
     data
   })
 }
+
+export function updatePassword(data) {
+  return request({
+    url: '/user/update_password',
+    method: 'post',
+    data
+  })
+}
