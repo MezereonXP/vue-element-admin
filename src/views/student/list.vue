@@ -111,8 +111,8 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button v-if="!createDialogVisible" type="primary" @click="saveChanges">更新</el-button>
-        <el-button v-if="createDialogVisible" type="primary" @click="createStudent">创建</el-button>
+        <el-button v-if="isEdit" type="primary" @click="saveChanges">更新</el-button>
+        <el-button v-if="!isEdit" type="primary" @click="createStudent">创建</el-button>
       </span>
     </el-dialog>
   </div>
@@ -135,6 +135,7 @@ export default {
       },
       dialogVisible: false,
       selectedStudent: {},
+      isEdit: false,
       password: '',
       createDialogVisible: false,
       search: '',
@@ -159,9 +160,10 @@ export default {
       this.password = ''
       this.selectedStudent = row
       this.dialogVisible = true
+      this.isEdit = true
     },
     saveChanges() {
-      if (this.createDialogVisible) {
+      if (!this.isEdit) {
         this.createStudent()
       } else {
         const userData = { ...this.selectedStudent }
@@ -222,6 +224,7 @@ export default {
     openCreateDialog() {
       this.dialogVisible = true
       this.createDialogVisible = true
+      this.isEdit = false
       this.selectedStudent = {
         roles: ['user'],
         sex: 'male',

@@ -417,6 +417,12 @@ export const asyncRoutes = [
         meta: { title: '实习岗位情况', icon: 'skill' }
       },
       {
+        path: 'internship_record',
+        component: () => import('@/views/student/internship_record'),
+        name: 'StudentInternshipRecord',
+        meta: { title: '实习工资档案', icon: 'table', roles: ['admin'] }
+      },
+      {
         path: 'attendance',
         component: () => import('@/views/student/attendance'),
         name: 'StudentAttendance',

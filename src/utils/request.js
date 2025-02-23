@@ -66,12 +66,6 @@ service.interceptors.response.use(
             location.reload()
           })
         })
-      } else if (res.code === 50008) {
-        Message({
-          message: res.error || 'Error',
-          type: 'error',
-          duration: 3 * 1000
-        })
       }
       return Promise.reject(new Error(res.error || 'Error'))
     } else {
