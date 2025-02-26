@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" icon="el-icon-plus" @click="openCreateDialog">新增学生</el-button>
-    <el-button type="success" icon="el-icon-refresh" @click="getStudentList">刷新</el-button>
+    <el-button type="primary" plain icon="el-icon-plus" @click="openCreateDialog">新增学生</el-button>
+    <el-button type="success" plain icon="el-icon-refresh" @click="getStudentList">刷新</el-button>
     <el-input v-model="search" placeholder="请输入姓名或者手机号" style="width: 200px; margin-left: 30px;" />
-    <el-button type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="searchStudent">查找</el-button>
+    <el-button type="primary" icon="el-icon-search" style="margin-left: 10px;" plain @click="searchStudent">查找</el-button>
 
-    <el-table v-loading="listLoading" :data="studentList" border fit highlight-current-row style="width: 100%; margin-top: 20px;">
+    <el-table v-loading="listLoading" :data="studentList" border fit highlight-current-row show-header style="margin-top: 20px;">
       <el-table-column align="center" label="姓名" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
@@ -41,7 +41,7 @@
           <span>{{ scope.row.phone_number }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="角色" width="230">
+      <el-table-column align="center" label="角色" width="120">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.roles.includes('user')" type="success">学生</el-tag>
           <el-tag v-if="scope.row.roles.includes('admin')" type="info" style="margin-left: 10px;">管理员</el-tag>
@@ -49,54 +49,54 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="210">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" @click="openEditDialog(scope.row)">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="primary" plain icon="el-icon-edit" @click="openEditDialog(scope.row)">编辑</el-button>
+          <el-button type="danger" plain icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getStudentList" />
 
-    <el-dialog :visible.sync="dialogVisible" title="编辑学生信息">
+    <el-dialog :visible.sync="dialogVisible" title="编辑学生信息" width="20%">
       <div>
-        <el-form>
+        <el-form label-width="80px" size="medium">
           <el-form-item label="姓名">
-            <el-input v-model="selectedStudent.username" placeholder="请输入姓名" />
+            <el-input v-model="selectedStudent.username" placeholder="请输入姓名" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="邮箱">
-            <el-input v-model="selectedStudent.email" placeholder="请输入邮箱" />
+            <el-input v-model="selectedStudent.email" placeholder="请输入邮箱" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="selectedStudent.phone_number" placeholder="请输入手机号" />
+            <el-input v-model="selectedStudent.phone_number" placeholder="请输入手机号" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="性别">
-            <el-select v-model="selectedStudent.sex" placeholder="请选择性别">
+            <el-select v-model="selectedStudent.sex" placeholder="请选择性别" style="width: 300px;">
               <el-option label="男" value="male" />
               <el-option label="女" value="female" />
             </el-select>
           </el-form-item>
           <el-form-item label="年龄">
-            <el-input-number v-model="selectedStudent.age" :min="0" :max="150" />
+            <el-input-number v-model="selectedStudent.age" :min="0" :max="150" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="民族">
-            <el-select v-model="selectedStudent.nationality" placeholder="请选择民族">
+            <el-select v-model="selectedStudent.nationality" placeholder="请选择民族" style="width: 300px;">
               <el-option v-for="nation in nations" :key="nation.name" :label="nation.name" :value="nation.name" />
             </el-select>
           </el-form-item>
           <el-form-item label="班级">
-            <el-input v-model="selectedStudent.school_class" placeholder="请输入班级" />
+            <el-input v-model="selectedStudent.school_class" placeholder="请输入班级" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="专业">
-            <el-input v-model="selectedStudent.major" placeholder="请输入专业" />
+            <el-input v-model="selectedStudent.major" placeholder="请输入专业" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="实习企业">
-            <el-input v-model="selectedStudent.internship_company" placeholder="请输入实习企业" />
+            <el-input v-model="selectedStudent.internship_company" placeholder="请输入实习企业" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="实习岗位">
-            <el-input v-model="selectedStudent.internship_position" placeholder="请输入实习岗位" />
+            <el-input v-model="selectedStudent.internship_position" placeholder="请输入实习岗位" style="width: 300px;" />
           </el-form-item>
           <el-form-item label="角色">
-            <el-select v-model="selectedStudent.roles" placeholder="请选择角色" multiple>
+            <el-select v-model="selectedStudent.roles" placeholder="请选择角色" multiple style="width: 300px;">
               <el-option label="学生" value="user" />
               <el-option label="管理员" value="admin" />
             </el-select>

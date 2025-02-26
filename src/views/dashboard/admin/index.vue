@@ -3,7 +3,7 @@
     <!-- <github-corner class="github-corner" /> -->
     <el-row :gutter="32">
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #ffecd1; border-radius: 10px;">
+        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
           <div style="display: flex; justify-content: space-between;">
             <img src="@/assets/student.png" style="width: 50px; height: 50px;">
             <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">学生数目</span>
@@ -12,7 +12,7 @@
         </el-card>
       </el-col>
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #cad2c5; border-radius: 10px;">
+        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
           <div style="display: flex; justify-content: space-between;">
             <img src="@/assets/job.png" style="width: 50px; height: 50px;">
             <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">实习岗位数目</span>
@@ -21,7 +21,7 @@
         </el-card>
       </el-col>
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #84a59d; border-radius: 10px;">
+        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
           <div style="display: flex; justify-content: space-between;">
             <img src="@/assets/contract.png" style="width: 50px; height: 50px;">
             <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">上传合同数目</span>
@@ -323,7 +323,7 @@ export default {
       })
     },
     gotoInternship() {
-      this.$router.push('/job')
+      this.$router.push('/position')
     },
     gotoJobIntro(id) {
       this.viewDialogVisible = true

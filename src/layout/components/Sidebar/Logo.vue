@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       title: '学生实习管理系统',
-      logo: 'http://mezereon.oss-cn-hangzhou.aliyuncs.com/7dba7e74ddd42169.png'
+      // logo: 'http://mezereon.oss-cn-hangzhou.aliyuncs.com/7dba7e74ddd42169.png'
+      logo: require('@/assets/logo.png')
     }
   }
 }
@@ -46,7 +47,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: #304156;
   text-align: center;
   overflow: hidden;
 

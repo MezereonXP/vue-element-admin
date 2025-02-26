@@ -62,11 +62,13 @@ export function searchUser(query) {
   })
 }
 
-export function checkIn(data) {
+export function checkIn(phoneNumber) {
   return request({
     url: '/attendance/checkin',
     method: 'post',
-    data
+    data: {
+      phone_number: phoneNumber
+    }
   })
 }
 
@@ -75,6 +77,24 @@ export function getAttendance(query) {
     url: '/attendance/get_attendance',
     method: 'get',
     params: query
+  })
+}
+
+export function getRecentAttendance(query) {
+  return request({
+    url: '/attendance/get_recent_attendance',
+    method: 'get',
+    params: query
+  })
+}
+
+export function deleteRecentAttendance(id) {
+  return request({
+    url: '/attendance/delete_attendance',
+    method: 'delete',
+    data: {
+      'attendance_id': id
+    }
   })
 }
 

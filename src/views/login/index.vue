@@ -6,15 +6,15 @@
         <h3 class="title">Login Form</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="phone_number">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="phone_number"
+          v-model="loginForm.phone_number"
+          placeholder="请输入手机号"
+          name="phone_number"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -81,9 +81,9 @@ export default {
   name: 'Login',
   components: { SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      // if (!validUsername(value)) {
-      //   callback(new Error('Please enter the correct user name'))
+    const validatePhoneNumber = (rule, value, callback) => {
+      // if (!/^1[3456789]\d{9}$/.test(value)) {
+      //   callback(new Error('请输入正确的手机号'))
       // } else {
       //   callback()
       // }
@@ -98,11 +98,11 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        phone_number: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        phone_number: [{ required: true, trigger: 'blur', validator: validatePhoneNumber }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -129,8 +129,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
+    if (this.loginForm.phone_number === '') {
+      this.$refs.phone_number.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }

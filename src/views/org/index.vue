@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 style="text-align: center;">组织架构</h1>
-    <el-button v-if="isAdmin" type="primary" icon="el-icon-plus" style="margin-left: 20px;" @click="openEditorForAdd">添加</el-button>
+    <el-button v-if="isAdmin" type="primary" icon="el-icon-plus" style="margin-left: 20px;" plain @click="openEditorForAdd">添加</el-button>
 
     <el-table :data="tableData" style="margin-top: 20px;width: 60%; margin: 0 auto;">
       <!-- <el-table-column prop="id" label="编号" width="100" /> -->
@@ -13,8 +13,8 @@
       <el-table-column prop="updated_at" label="更新时间" width="200" :formatter="formatDate" />
       <el-table-column v-if="isAdmin" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAdmin" type="primary" icon="el-icon-edit" @click="openEditor(scope.row)" />
-          <el-button v-if="isAdmin" type="danger" icon="el-icon-delete" @click="deleteContent(scope.row.id)" />
+          <el-button v-if="isAdmin" type="primary" icon="el-icon-edit" plain @click="openEditor(scope.row)" />
+          <el-button v-if="isAdmin" type="danger" icon="el-icon-delete" plain @click="deleteContent(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -36,8 +36,8 @@
       <br>
       <P>内容：</P><Tinymce ref="editor" v-model="editorContent" :height="400" />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="addContent">添加</el-button>
-        <el-button @click="addVisible = false">取消</el-button>
+        <el-button plain @click="addContent">添加</el-button>
+        <el-button plain @click="addVisible = false">取消</el-button>
       </span>
     </el-dialog>
     <el-dialog :visible.sync="editorVisible" title="编辑">
@@ -45,8 +45,8 @@
       <br>
       <P>内容：</P><Tinymce ref="editor" v-model="editorContent" :height="400" />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="saveContent">保存</el-button>
-        <el-button @click="editorVisible = false">取消</el-button>
+        <el-button plain @click="saveContent">保存</el-button>
+        <el-button plain @click="editorVisible = false">取消</el-button>
       </span>
     </el-dialog>
   </div>

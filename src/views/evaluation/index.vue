@@ -1,30 +1,45 @@
 <template>
   <div class="createPost-container">
-    <h1 v-if="checkContent()" style="text-align: center; margin-top: 20px; color: red;">您尚未进行实习评价，请及时进行评价！</h1>
-    <el-form v-if="checkRole()" ref="postForm" :model="postForm" :rules="rules" class="form-container">
-
-      <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status">
-        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+    <!-- <h1 v-if="checkContent()" style="text-align: center; margin-top: 20px; color: red;">您尚未进行实习评价，请及时进行评价！</h1> -->
+    <el-form
+      v-if="checkRole()"
+      ref="postForm"
+      :model="postForm"
+      :rules="rules"
+      class="form-container"
+      style="width: 80%; margin-left: 10%;"
+    >
+      <h1 style="text-align: center; margin-top: 20px;">实习评价</h1>
+      <!-- <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status">
+        <el-button v-if="checkContent()" v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
           提交
         </el-button>
-      </sticky>
+        <el-button v-else v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+          更新
+        </el-button>
+      </sticky> -->
 
-      <div class="createPost-main-container">
+      <!-- <div class="createPost-main-container">
         <el-form-item prop="content" style="margin-bottom: 30px;">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
         </el-form-item>
-      </div>
+      </div> -->
+      <el-descriptions :column="1" border style="margin-top:20px; width: 80%;">
+        <el-descriptions-item label="评价内容">
+          <div class="createPost-main-container" v-html="postForm.content" />
+        </el-descriptions-item>
+      </el-descriptions>
     </el-form>
     <div v-else class="no-permission">
-      <h1>您不是学生，无法进行评价</h1>
+      <el-alert type="info" title="您不是学生，无需进行评价" show-icon />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Tinymce from '@/components/Tinymce'
-import Sticky from '@/components/Sticky' // 粘性header组件
+// import Tinymce from '@/components/Tinymce'
+// import Sticky from '@/components/Sticky' // 粘性header组件
 import { getInfo, updateProfile } from '@/api/user'
 
 const defaultForm = {
@@ -41,7 +56,7 @@ const defaultForm = {
 
 export default {
   name: 'Evaluation',
-  components: { Tinymce, Sticky },
+  components: {},
   props: {
     isEdit: {
       type: Boolean,
@@ -78,6 +93,14 @@ export default {
   },
   created() {
     this.fetchData()
+    // if (this.postForm.content === "" && this.checkRole()) {
+    //   this.$notify({
+    //     title: '提示',
+    //     message: '您尚未进行实习评价，请及时进行评价！',
+    //     type: 'warning',
+    //     duration: 2000
+    //   });
+    // }
   },
   methods: {
     fetchData() {
@@ -124,45 +147,48 @@ export default {
 }
 </script>
 
-  <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
+<style lang="scss" scoped>
+@import "~@/styles/mixin.scss";
 
-  .createPost-container {
-    position: relative;
+.createPost-container {
+  position: relative;
 
-    .createPost-main-container {
-      padding: 40px 45px 20px 50px;
+  .createPost-main-container {
+    padding: 40px 45px 20px 50px;
 
-      .postInfo-container {
-        position: relative;
-        @include clearfix;
-        margin-bottom: 10px;
+    .postInfo-container {
+      position: relative;
+      @include clearfix;
+      margin-bottom: 10px;
 
-        .postInfo-container-item {
-          float: left;
-        }
+      .postInfo-container-item {
+        float: left;
       }
     }
-
-    .word-counter {
-      width: 40px;
-      position: absolute;
-      right: 10px;
-      top: 0px;
-    }
   }
 
-  .article-textarea ::v-deep {
-    textarea {
-      padding-right: 40px;
-      resize: none;
-      border: none;
-      border-radius: 0px;
-      border-bottom: 1px solid #bfcbd9;
-    }
+  .word-counter {
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 0px;
   }
-  .no-permission {
-    text-align: center;
-    margin-top: 20px;
+}
+
+.article-textarea ::v-deep {
+  textarea {
+    padding-right: 40px;
+    resize: none;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #bfcbd9;
   }
-  </style>
+}
+
+.no-permission {
+  // text-align: center;
+  margin-top: 20px;
+  margin-left: 20px;
+
+}
+</style>

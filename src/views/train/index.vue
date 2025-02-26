@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 style="text-align: center;">实习培训</h1>
-    <el-button v-if="isAdmin" type="primary" icon="el-icon-plus" style="margin-left: 20px;" @click="openEditorForAdd">添加</el-button>
+    <el-button v-if="isAdmin" type="primary" icon="el-icon-plus" style="margin-left: 20px;" plain @click="openEditorForAdd">添加</el-button>
 
     <el-table :data="tableData" style="margin-top: 20px;width: 60%; margin: 0 auto;">
       <!-- <el-table-column prop="id" label="编号" width="100" /> -->
@@ -45,8 +45,8 @@
       <br>
       <P>内容：</P><Tinymce ref="editor" v-model="editorContent" :height="400" />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="saveContent">保存</el-button>
-        <el-button @click="editorVisible = false">取消</el-button>
+        <el-button plain @click="saveContent">保存</el-button>
+        <el-button plain @click="editorVisible = false">取消</el-button>
       </span>
     </el-dialog>
   </div>

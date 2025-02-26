@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>实习企业信息管理</h1>
-    <el-button type="primary" @click="handleCreate">添加企业</el-button>
+    <el-button type="primary" plain icon="el-icon-plus" @click="handleCreate">添加企业</el-button>
     <el-table v-loading="loading" :data="tableData" style="width: 100%; margin-top: 20px;" border>
       <el-table-column prop="logo" label="企业logo" align="center">
         <template slot-scope="scope">
@@ -35,9 +35,9 @@
       </el-table-column>
       <el-table-column prop="description" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="small" @click="handleEdit(scope.row)" />
-          <el-button type="primary" icon="el-icon-view" size="small" @click="handlePreview(scope.row)" />
-          <el-button type="danger" icon="el-icon-delete" size="small" @click="handleDelete(scope.row)" />
+          <el-button type="primary" icon="el-icon-edit" size="small" plain @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="info" icon="el-icon-view" size="small" plain @click="handlePreview(scope.row)">预览</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="small" plain @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

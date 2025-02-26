@@ -1,8 +1,8 @@
 <template>
   <div class="internship-record-container">
-    <el-button type="primary" icon="el-icon-plus" @click="handleCreate">创建实习记录</el-button>
+    <el-button type="primary" icon="el-icon-plus" plain @click="handleCreate">创建实习记录</el-button>
     <el-input v-model="search" placeholder="请输入手机号/姓名/公司名称/岗位" style="width: 300px; margin-left: 20px;" />
-    <el-button type="primary" icon="el-icon-search" style="margin-left: 20px;" @click="handleSearch">搜索</el-button>
+    <el-button type="primary" icon="el-icon-search" style="margin-left: 20px;" plain @click="handleSearch">搜索</el-button>
 
     <el-table :data="tableData" style="width: 100%; margin-top: 20px;">
       <el-table-column prop="username" label="姓名" />
@@ -15,8 +15,8 @@
       <el-table-column prop="description" label="备注" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="danger" plain @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -29,39 +29,39 @@
       style="margin-top: 20px;"
       @current-change="handleCurrentChange"
     />
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="50%">
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="手机号">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="20%">
+      <el-form :model="form" label-width="100px" size="medium">
+        <el-form-item label="手机号" style="width: 300px;">
           <el-input v-model="form.phone_number" />
         </el-form-item>
-        <el-form-item label="工资">
+        <el-form-item label="工资" style="width: 300px;">
           <el-input v-model="form.salary" />
         </el-form-item>
-        <el-form-item label="岗位">
+        <el-form-item label="岗位" style="width: 300px;">
           <el-input v-model="form.position" />
         </el-form-item>
-        <el-form-item label="公司名称">
+        <el-form-item label="公司名称" style="width: 300px;">
           <el-input v-model="form.company_name" />
         </el-form-item>
-        <el-form-item label="地点">
+        <el-form-item label="地点" style="width: 300px;">
           <el-input v-model="form.location" />
         </el-form-item>
-        <el-form-item label="实习时长">
+        <el-form-item label="实习时长" style="width: 300px;">
           <el-input v-model="form.work_hours" />
         </el-form-item>
-        <el-form-item label="开始时间">
-          <el-date-picker v-model="form.start_date" type="datetime" placeholder="选择开始时间" />
+        <el-form-item label="开始时间" style="width: 300px;">
+          <el-date-picker v-model="form.start_date" type="datetime" placeholder="选择开始时间" style="width: 300px;" />
         </el-form-item>
-        <el-form-item label="结束时间">
-          <el-date-picker v-model="form.end_date" type="datetime" placeholder="选择结束时间" />
+        <el-form-item label="结束时间" style="width: 300px;">
+          <el-date-picker v-model="form.end_date" type="datetime" placeholder="选择结束时间" style="width: 300px;" />
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入备注" />
+        <el-form-item label="备注" style="width: 300px;">
+          <el-input v-model="form.description" type="textarea" placeholder="请输入备注" style="width: 300px;" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSave">保存</el-button>
+        <el-button plain @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" plain @click="handleSave">保存</el-button>
       </div>
     </el-dialog>
   </div>

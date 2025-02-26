@@ -2,9 +2,22 @@
   <div class="container">
     <h1>实习评价管理</h1>
     <el-input v-model="search_keyword" placeholder="请输入姓名或者手机号" style="width: 200px; margin-top: 20px;" />
-    <el-button type="primary" icon="el-icon-search" style="margin-left: 20px;" @click="searchEvaluation">搜索</el-button>
-    <el-button type="success" icon="el-icon-refresh" @click="getEvaluation">刷新</el-button>
-    <el-table v-loading="listLoading" :data="userList" style="width: 80%; margin-top: 20px;" border fit highlight-current-row>
+    <el-button
+      type="primary"
+      icon="el-icon-search"
+      style="margin-left: 20px;"
+      plain
+      @click="searchEvaluation"
+    >搜索</el-button>
+    <el-button type="success" icon="el-icon-refresh" plain @click="getEvaluation">刷新</el-button>
+    <el-table
+      v-loading="listLoading"
+      :data="userList"
+      style="width: 80%; margin-top: 20px;"
+      border
+      fit
+      highlight-current-row
+    >
       <el-table-column align="center" label="姓名">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
@@ -27,12 +40,20 @@
       </el-table-column>
       <el-table-column align="center" label="填写状态">
         <template slot-scope="scope">
-          <span :style="{ color: scope.row.internship_evaluation === null ? 'red' : 'green' }">{{ scope.row.internship_evaluation === null ? '未填写' : '已填写' }}</span>
+          <span :style="{ color: scope.row.internship_evaluation === null ? 'red' : 'green' }">{{
+            scope.row.internship_evaluation === null ? '未填写' : '已填写' }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-view" :disabled="scope.row.internship_evaluation === null" @click="handleCheck(scope.row)">查看</el-button>
+          <el-button
+            type="info"
+            icon="el-icon-view"
+            :disabled="scope.row.internship_evaluation === null"
+            plain
+            @click="handleCheck(scope.row)"
+          >查看</el-button>
+          <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,18 +67,30 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-    <el-dialog :visible.sync="dialogVisible" title="查看评价">
-      <div v-html="evaluationContent" />
-      <el-button type="primary" @click="dialogVisible = false">关闭</el-button>
+    <el-dialog :visible.sync="dialogVisible" title="查看评价" direction="vertical">
+      <el-descriptions :column="1" border>
+        <el-descriptions-item label="评价内容">
+          <div v-html="evaluationContent" />
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-button type="primary" plain style="margin-top: 20px;" @click="dialogVisible = false">关闭</el-button>
+    </el-dialog>
+    <el-dialog :visible.sync="editDialogVisible" title="编辑评价" direction="vertical">
+      <Tinymce v-model="editForm.content" />
+      <el-button type="primary" plain style="margin-top: 20px;" @click="handleSaveEdit">保存</el-button>
     </el-dialog>
   </div>
 
 </template>
 
 <script>
-import { getUserList, searchUser } from '@/api/user'
+import { getUserList, searchUser, updateProfile } from '@/api/user'
+import Tinymce from '@/components/Tinymce'
 export default {
   name: 'Evaluation',
+  components: {
+    Tinymce
+  },
   data() {
     return {
       dialogVisible: false,
@@ -67,7 +100,12 @@ export default {
       total: 0,
       evaluationContent: '',
       search_keyword: '',
-      listLoading: false
+      listLoading: false,
+      editDialogVisible: false,
+      editForm: {
+        id: '',
+        content: ''
+      }
     }
   },
   mounted() {
@@ -89,6 +127,10 @@ export default {
         } else {
           this.$message.error('获取数据失败')
         }
+      }).catch(err => {
+        this.listLoading = false
+        console.error(err)
+        this.$message.error('获取数据失败')
       })
     },
     handleSizeChange(val) {
@@ -122,6 +164,29 @@ export default {
         } else {
           this.$message.error('搜索失败')
         }
+      }).catch(err => {
+        this.listLoading = false
+        console.error(err)
+        this.$message.error('搜索失败')
+      })
+    },
+    handleEdit(row) {
+      this.editForm.id = row.id
+      this.editForm.content = row.internship_evaluation
+      this.editDialogVisible = true
+    },
+    handleSaveEdit() {
+      const query = {
+        id: this.editForm.id,
+        internship_evaluation: this.editForm.content
+      }
+      updateProfile(query).then(res => {
+        this.editDialogVisible = false
+        this.getEvaluation()
+        this.$message.success('编辑成功')
+      }).catch(err => {
+        console.log(err)
+        this.$message.error('编辑失败')
       })
     }
   }
@@ -131,11 +196,10 @@ export default {
 
 <style scoped>
 .container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 20px;
 }
-
 </style>

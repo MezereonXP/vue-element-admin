@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <el-button type="primary" icon="el-icon-plus" @click="showAddPositionDialog">新增岗位</el-button>
-    <el-button type="success" icon="el-icon-refresh" @click="refresh">刷新</el-button>
+    <el-button type="primary" plain icon="el-icon-plus" @click="showAddPositionDialog">新增岗位</el-button>
+    <el-button type="success" plain icon="el-icon-refresh" @click="refresh">刷新</el-button>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading..." style="width: 100%;margin-top: 20px;">
       <el-table-column prop="id" label="编号" width="50" />
       <el-table-column prop="title" label="岗位名称">
@@ -17,9 +17,9 @@
       <el-table-column prop="updated_at" label="更新时间" :formatter="formatDate" sortable />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="checkEditPermission()" type="primary" icon="el-icon-edit" @click="editPosition(scope.row)">编辑</el-button>
-          <el-button v-if="checkDeletePermission()" type="danger" icon="el-icon-delete" @click="deletePosition(scope.row)">删除</el-button>
-          <el-button v-if="checkViewPermission()" type="info" icon="el-icon-view" @click="viewPosition(scope.row)">查看</el-button>
+          <el-button v-if="checkEditPermission()" type="primary" plain icon="el-icon-edit" @click="editPosition(scope.row)">编辑</el-button>
+          <el-button v-if="checkDeletePermission()" type="danger" plain icon="el-icon-delete" @click="deletePosition(scope.row)">删除</el-button>
+          <el-button v-if="checkViewPermission()" type="info" plain icon="el-icon-view" @click="viewPosition(scope.row)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,8 +59,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addPosition">确定</el-button>
+        <el-button plain @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" plain @click="addPosition">确定</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -117,8 +117,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="updatePosition">确定</el-button>
+        <el-button plain @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" plain @click="updatePosition">确定</el-button>
       </div>
     </el-dialog>
   </div>
