@@ -5,7 +5,9 @@
         <span class="title">学生管理</span>
       </div>
       <el-button type="primary" plain icon="el-icon-plus" @click="openCreateDialog">新增学生</el-button>
-      <el-button type="success" plain icon="el-icon-refresh" @click="getStudentList">刷新</el-button>
+      <el-button type="success" plain class="refresh-button" @click="refresh">
+        <i :class="['el-icon-refresh', { 'is-refreshing': isRefreshing }]" /> 刷新
+      </el-button>
       <el-input v-model="search" placeholder="请输入姓名或者手机号" style="width: 200px; margin-left: 30px;" />
       <el-button
         type="primary"
@@ -164,7 +166,8 @@ export default {
       password: '',
       createDialogVisible: false,
       search: '',
-      nations: [{ name: '汉族' }, { name: '回族' }, { name: '藏族' }, { name: '维吾尔族' }]
+      nations: [{ name: '汉族' }, { name: '回族' }, { name: '藏族' }, { name: '维吾尔族' }],
+      isRefreshing: false
     }
   },
   created() {
@@ -174,7 +177,6 @@ export default {
     getStudentList() {
       this.listLoading = true
       getUserList(this.listQuery).then(res => {
-        console.log(res.users)
         this.studentList = res.users
         this.total = res.total
         this.$message.success('获取学生列表成功')
@@ -294,6 +296,13 @@ export default {
         this.listLoading = false
         this.$message.success('搜索成功')
       })
+    },
+    refresh() {
+      this.isRefreshing = true
+      this.getStudentList()
+      setTimeout(() => {
+        this.isRefreshing = false
+      }, 500)
     }
   }
 }
@@ -318,6 +327,35 @@ export default {
     width: 4px;
     background-color: #409EFF;
     border-radius: 2px;
+  }
+}
+
+.refresh-button {
+  margin-left: 20px;
+
+  .el-icon-refresh.is-refreshing {
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 </style>

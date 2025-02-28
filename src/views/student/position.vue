@@ -297,4 +297,100 @@ export default {
     border-radius: 2px;
   }
 }
+
+/* Dialog styling */
+.el-dialog ::v-deep .el-dialog__header {
+  padding: 20px 25px;
+  border-bottom: 1px solid #ebeef5;
+  position: relative;
+}
+
+.el-dialog ::v-deep .el-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+}
+
+.el-dialog ::v-deep .el-dialog__title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 16px;
+  width: 3px;
+  background-color: #409EFF;
+  border-radius: 2px;
+}
+
+.el-dialog ::v-deep .el-dialog__body {
+  padding: 25px 30px;
+}
+
+.el-dialog ::v-deep .el-dialog__footer {
+  padding: 15px 25px 20px;
+  border-top: 1px solid #ebeef5;
+  text-align: right;
+}
+
+.el-dialog ::v-deep .el-dialog__wrapper {
+  backdrop-filter: blur(5px);
+}
+
+.el-dialog ::v-deep .el-dialog {
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.el-dialog ::v-deep .el-dialog__headerbtn {
+  font-size: 18px;
+  top: 20px;
+  right: 20px;
+}
+
+.el-dialog ::v-deep .el-dialog__headerbtn:hover .el-dialog__close {
+  color: #409EFF;
+  transform: rotate(90deg);
+  transition: all 0.3s ease;
+}
+
+.el-dialog ::v-deep .el-dialog__close {
+  transition: all 0.3s ease;
+}
+
+/* Dialog content table styling */
+.el-dialog table {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #ebeef5 !important;
+}
+
+.el-dialog table td {
+  padding: 14px 20px !important;
+  line-height: 1.5;
+  color: #606266;
+  border: 1px solid #ebeef5 !important;
+}
+
+.el-dialog table tr td:first-child {
+  background-color: #f8f9fc;
+  color: #303133;
+  font-weight: 600;
+  width: 140px;
+}
+
+.el-dialog table tr:hover {
+  background-color: #f8fbff;
+}
+
+/* Dialog footer buttons */
+.dialog-footer .el-button {
+  padding: 10px 25px;
+  font-size: 14px;
+}
 </style>

@@ -366,168 +366,98 @@ h2 {
 }
 
 /* Dialog styling */
-.el-dialog {
-  border-radius: 10px;
-  overflow: hidden;
-  min-width: 700px;
-}
-
 .el-dialog ::v-deep .el-dialog__header {
-  padding: 22px 25px;
-  background-color: #f9fafc;
-  border-bottom: 1px solid #eef2f6;
+  padding: 20px 25px;
+  border-bottom: 1px solid #ebeef5;
+  position: relative;
 }
 
 .el-dialog ::v-deep .el-dialog__title {
+  font-size: 18px;
   font-weight: 600;
-  color: #2c3e50;
-  font-size: 1.2rem;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
 }
 
-.el-dialog ::v-deep .el-dialog__headerbtn {
-  top: 18px;
-  right: 20px;
-}
-
-.el-dialog ::v-deep .el-dialog__headerbtn:hover .el-dialog__close {
-  color: #409eff;
-  transform: rotate(90deg);
-  transition: all 0.3s;
+.el-dialog ::v-deep .el-dialog__title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 16px;
+  width: 3px;
+  background-color: #409EFF;
+  border-radius: 2px;
 }
 
 .el-dialog ::v-deep .el-dialog__body {
-  padding: 30px 25px;
-  color: #606266;
+  padding: 25px 30px;
 }
 
 .el-dialog ::v-deep .el-dialog__footer {
   padding: 15px 25px 20px;
-  border-top: 1px solid #eef2f6;
-  background-color: #f9fafc;
-}
-
-/* Position details table */
-table {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #ebeef5 !important;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.03);
-  width: 100%;
-}
-
-table td {
-  border-color: #ebeef5 !important;
-  padding: 16px 20px !important;
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
-table td:first-child {
-  color: #445566;
-  font-weight: 600;
-  background-color: #f9fafc;
-}
-
-table tr:nth-child(odd) {
-  background-color: #fafbfc;
-}
-
-table tr:nth-child(even) {
-  background-color: #ffffff;
-}
-
-table tr:last-child td {
-  border-bottom: none !important;
-}
-
-.dialog-footer {
+  border-top: 1px solid #ebeef5;
   text-align: right;
-  margin-top: 25px;
 }
 
-/* Loading state */
-.el-loading-mask {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(2px);
+.el-dialog ::v-deep .el-dialog__wrapper {
+  backdrop-filter: blur(5px);
 }
 
-/* Empty state */
-.el-table__empty-block {
-  min-height: 200px;
+.el-dialog ::v-deep .el-dialog {
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.el-table__empty-text {
-  color: #909399;
+.el-dialog ::v-deep .el-dialog__headerbtn {
+  font-size: 18px;
+  top: 20px;
+  right: 20px;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 1600px) {
-  .container {
-    max-width: 95%;
-  }
+.el-dialog ::v-deep .el-dialog__headerbtn:hover .el-dialog__close {
+  color: #409EFF;
+  transform: rotate(90deg);
+  transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 992px) {
-  .container {
-    padding: 25px 30px;
-    margin: 15px auto;
-    max-width: 95%;
-  }
-
-  .el-dialog {
-    min-width: auto;
-  }
-
-  .el-button {
-    padding: 9px 16px;
-  }
+.el-dialog ::v-deep .el-dialog__close {
+  transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    padding: 20px;
-    margin: 10px;
-  }
-
-  .el-dialog ::v-deep .el-dialog__body {
-    padding: 20px;
-  }
-
-  table td {
-    padding: 12px 15px !important;
-  }
-
-  .el-button {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-  }
-
-  .el-pagination {
-    margin: 25px 0 10px;
-    padding: 10px 0;
-  }
+/* Dialog content table styling */
+.el-dialog table {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #ebeef5 !important;
 }
 
-@media screen and (max-width: 576px) {
-  .container {
-    padding: 15px;
-    margin: 5px;
-  }
+.el-dialog table td {
+  padding: 14px 20px !important;
+  line-height: 1.5;
+  color: #606266;
+  border: 1px solid #ebeef5 !important;
+}
 
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
+.el-dialog table tr td:first-child {
+  background-color: #f8f9fc;
+  color: #303133;
+  font-weight: 600;
+  width: 140px;
+}
 
-  .el-table ::v-deep th,
-  .el-table ::v-deep td {
-    padding: 10px 5px;
-    font-size: 0.9rem;
-  }
+.el-dialog table tr:hover {
+  background-color: #f8fbff;
+}
 
-  .el-dialog {
-    width: 95% !important;
-    margin-top: 10vh !important;
-  }
+/* Dialog footer buttons */
+.dialog-footer .el-button {
+  padding: 10px 25px;
+  font-size: 14px;
 }
 </style>
