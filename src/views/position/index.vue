@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="header">
-      <el-button type="success" icon="el-icon-refresh" plain @click="refresh">刷新</el-button>
+      <span class="title">岗位信息</span>
+      <el-button type="success" class="refresh-button" plain @click="refresh">
+        <i :class="['el-icon-refresh', { 'is-refreshing': isRefreshing }]" /> 刷新
+      </el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -102,7 +105,8 @@ export default {
       pageSize: 10,
       currentPage: 1,
       viewDialogVisible: false,
-      editDialogVisible: false
+      editDialogVisible: false,
+      isRefreshing: false
     }
   },
   computed: {
@@ -145,10 +149,15 @@ export default {
         this.listLoading = false
         this.total = response.total
         this.currentPage = response.page
+        this.$message.success('刷新成功')
       })
     },
     refresh() {
+      this.isRefreshing = true
       this.getList()
+      setTimeout(() => {
+        this.isRefreshing = false
+      }, 500)
     },
     checkViewPermission() {
       return true
@@ -165,6 +174,59 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+}
+
+.title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 16px;
+  width: 4px;
+  background-color: #409EFF;
+  border-radius: 2px;
+}
+
+.refresh-button {
+  margin-left: 20px;
+  background-color: #409EFF;
+  color: #fff;
+  border: none;
+
+  .el-icon-refresh.is-refreshing {
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 .container {
   padding: 35px 40px;
   max-width: 2000px;
