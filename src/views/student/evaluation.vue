@@ -1,86 +1,89 @@
 <template>
   <div class="container">
-    <h1>实习评价管理</h1>
-    <el-input v-model="search_keyword" placeholder="请输入姓名或者手机号" style="width: 200px; margin-top: 20px;" />
-    <el-button
-      type="primary"
-      icon="el-icon-search"
-      style="margin-left: 20px;"
-      plain
-      @click="searchEvaluation"
-    >搜索</el-button>
-    <el-button type="success" icon="el-icon-refresh" plain @click="getEvaluation">刷新</el-button>
-    <el-table
-      v-loading="listLoading"
-      :data="userList"
-      style="width: 80%; margin-top: 20px;"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column align="center" label="姓名">
-        <template slot-scope="scope">
-          <span>{{ scope.row.username }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="班级">
-        <template slot-scope="scope">
-          <span>{{ scope.row.school_class }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="实习企业">
-        <template slot-scope="scope">
-          <span>{{ scope.row.internship_company }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="实习岗位">
-        <template slot-scope="scope">
-          <span>{{ scope.row.internship_position }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="填写状态">
-        <template slot-scope="scope">
-          <span :style="{ color: scope.row.internship_evaluation === null ? 'red' : 'green' }">{{
-            scope.row.internship_evaluation === null ? '未填写' : '已填写' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="操作">
-        <template slot-scope="scope">
-          <el-button
-            type="info"
-            icon="el-icon-view"
-            :disabled="scope.row.internship_evaluation === null"
-            plain
-            @click="handleCheck(scope.row)"
-          >查看</el-button>
-          <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row)">编辑</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="10"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      style="margin-top: 20px;"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
-    <el-dialog :visible.sync="dialogVisible" title="查看评价" direction="vertical">
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="评价内容">
-          <div v-html="evaluationContent" />
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-button type="primary" plain style="margin-top: 20px;" @click="dialogVisible = false">关闭</el-button>
-    </el-dialog>
-    <el-dialog :visible.sync="editDialogVisible" title="编辑评价" direction="vertical">
-      <Tinymce v-model="editForm.content" />
-      <el-button type="primary" plain style="margin-top: 20px;" @click="handleSaveEdit">保存</el-button>
-    </el-dialog>
+    <el-card>
+      <div slot="header">
+        <span>实习评价管理</span>
+      </div>
+      <el-input v-model="search_keyword" placeholder="请输入姓名或者手机号" style="width: 200px; margin-top: 20px;" />
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        style="margin-left: 20px;"
+        plain
+        @click="searchEvaluation"
+      >搜索</el-button>
+      <el-button type="success" icon="el-icon-refresh" plain @click="getEvaluation">刷新</el-button>
+      <el-table
+        v-loading="listLoading"
+        :data="userList"
+        style="width: 80%; margin-top: 20px;"
+        border
+        fit
+        highlight-current-row
+      >
+        <el-table-column align="center" label="姓名">
+          <template slot-scope="scope">
+            <span>{{ scope.row.username }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="班级">
+          <template slot-scope="scope">
+            <span>{{ scope.row.school_class }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="实习企业">
+          <template slot-scope="scope">
+            <span>{{ scope.row.internship_company }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="实习岗位">
+          <template slot-scope="scope">
+            <span>{{ scope.row.internship_position }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="填写状态">
+          <template slot-scope="scope">
+            <span :style="{ color: scope.row.internship_evaluation === null ? 'red' : 'green' }">{{
+              scope.row.internship_evaluation === null ? '未填写' : '已填写' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="info"
+              icon="el-icon-view"
+              :disabled="scope.row.internship_evaluation === null"
+              plain
+              @click="handleCheck(scope.row)"
+            >查看</el-button>
+            <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        style="margin-top: 20px;"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+      <el-dialog :visible.sync="dialogVisible" title="查看评价" direction="vertical">
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="评价内容">
+            <div v-html="evaluationContent" />
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-button type="primary" plain style="margin-top: 20px;" @click="dialogVisible = false">关闭</el-button>
+      </el-dialog>
+      <el-dialog :visible.sync="editDialogVisible" title="编辑评价" direction="vertical">
+        <Tinymce v-model="editForm.content" />
+        <el-button type="primary" plain style="margin-top: 20px;" @click="handleSaveEdit">保存</el-button>
+      </el-dialog>
+    </el-card>
   </div>
-
 </template>
 
 <script>

@@ -1,68 +1,72 @@
 <template>
   <div class="container">
-    <h1>考勤打卡</h1>
-    <div v-if="!isAdmin" class="attendance-container">
-      <div class="check-in-info">
-        <!-- <div v-if="isAdmin" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div> -->
-        <div>
-          <!-- <el-button v-if="isToday(selectedDate)" type="primary" :disabled="isMarkedDate(selectedDate)" @click="checkIn">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button>
+    <el-card>
+      <div slot="header">
+        <span>考勤打卡</span>
+      </div>
+      <div v-if="!isAdmin" class="attendance-container">
+        <div class="check-in-info">
+          <!-- <div v-if="isAdmin" style="font-size: 20px; font-weight: bold; color: #409EFF;">您是管理员无需打卡</div> -->
+          <div>
+            <!-- <el-button v-if="isToday(selectedDate)" type="primary" :disabled="isMarkedDate(selectedDate)" @click="checkIn">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button>
 
           <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" show-icon /> -->
-          <el-tag v-if="isMarkedDate(new Date())" type="success" style="font-size: 16px; margin-top: 10px;">
-            今日已打卡</el-tag>
-          <el-tag v-else type="danger" style="font-size: 16px; margin-top: 10px;"> 今日未打卡</el-tag>
-          <!-- Add more check-in statistics here -->
-          <br>
-          <el-tag type="success" style="font-size: 16px; margin-top: 10px;">当月打卡次数: {{ getAttendanceCount() }}</el-tag>
+            <el-tag v-if="isMarkedDate(new Date())" type="success" style="font-size: 16px; margin-top: 10px;">
+              今日已打卡</el-tag>
+            <el-tag v-else type="danger" style="font-size: 16px; margin-top: 10px;"> 今日未打卡</el-tag>
+            <!-- Add more check-in statistics here -->
+            <br>
+            <el-tag type="success" style="font-size: 16px; margin-top: 10px;">当月打卡次数: {{ getAttendanceCount()
+            }}</el-tag>
+          </div>
+          <!-- <el-button type="primary" @click="checkIn" :disabled="isMarkedDate(selectedDate)">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button> -->
         </div>
-        <!-- <el-button type="primary" @click="checkIn" :disabled="isMarkedDate(selectedDate)">{{ isMarkedDate(selectedDate) ? '已打卡' : '打卡' }}</el-button> -->
+        <div class="calendar">
+          <el-calendar v-model="selectedDate">
+            <template #dateCell="{ date, data }">
+              <div>
+                {{ data.day | keepDay }}
+                <!-- {{ isMarkedDate(date) ? '已打卡' : '' }} -->
+                <el-tag v-if="isMarkedDate(date)" type="success">已打卡</el-tag>
+
+              </div>
+            </template>
+          </el-calendar>
+        </div>
       </div>
-      <div class="calendar">
-        <el-calendar v-model="selectedDate">
-          <template #dateCell="{ date, data }">
-            <div>
-              {{ data.day | keepDay }}
-              <!-- {{ isMarkedDate(date) ? '已打卡' : '' }} -->
-              <el-tag v-if="isMarkedDate(date)" type="success">已打卡</el-tag>
+      <div v-else>
+        <!-- <el-alert title="您是管理员无需打卡" type="info" show-icon /> -->
+        <el-input v-model="phoneNumber" placeholder="请输入学生手机号" style="width: 200px; margin-right: 10px;" />
+        <el-button type="primary" plain icon="el-icon-check" @click="checkIn">打卡</el-button>
 
-            </div>
-          </template>
-        </el-calendar>
+        <!-- 最近打卡记录 -->
+        <p style="font-size: 16px; font-weight: bold; margin-top: 20px;">最近打卡记录</p>
+        <el-table :data="recentAttendanceList" style="width: 100%; margin-top: 20px;">
+          <el-table-column prop="phone_number" label="学生手机号" />
+          <el-table-column prop="user_name" label="学生姓名" />
+          <el-table-column prop="check_in_time" label="打卡时间" :formatter="formatDate" />
+          <el-table-column label="操作">
+            <template #default="scope">
+              <el-button type="danger" plain icon="el-icon-delete" @click="handleDelete(scope.row)">撤销打卡</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :page-size="limit"
+          :current-page="page"
+          :page-sizes="[10, 20, 50, 100]"
+          style="margin-top: 20px;"
+          @current-change="handlePageChange"
+          @size-change="handleSizeChange"
+        />
+
       </div>
-    </div>
-    <div v-else>
-      <!-- <el-alert title="您是管理员无需打卡" type="info" show-icon /> -->
-      <el-input v-model="phoneNumber" placeholder="请输入学生手机号" style="width: 200px; margin-right: 10px;" />
-      <el-button type="primary" plain icon="el-icon-check" @click="checkIn">打卡</el-button>
-
-      <!-- 最近打卡记录 -->
-      <p style="font-size: 16px; font-weight: bold; margin-top: 20px;">最近打卡记录</p>
-      <el-table :data="recentAttendanceList" style="width: 100%; margin-top: 20px;">
-        <el-table-column prop="phone_number" label="学生手机号" />
-        <el-table-column prop="user_name" label="学生姓名" />
-        <el-table-column prop="check_in_time" label="打卡时间" :formatter="formatDate" />
-        <el-table-column label="操作">
-          <template #default="scope">
-            <el-button type="danger" plain icon="el-icon-delete" @click="handleDelete(scope.row)">撤销打卡</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <!-- 分页 -->
-      <el-pagination
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-        :page-size="limit"
-        :current-page="page"
-        :page-sizes="[10, 20, 50, 100]"
-        style="margin-top: 20px;"
-        @current-change="handlePageChange"
-        @size-change="handleSizeChange"
-      />
-
-    </div>
-
+    </el-card>
   </div>
 </template>
 

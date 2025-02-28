@@ -80,6 +80,14 @@ export function getAttendance(query) {
   })
 }
 
+export function searchAttendance(query) {
+  return request({
+    url: '/attendance/search_attendance',
+    method: 'get',
+    params: query
+  })
+}
+
 export function getRecentAttendance(query) {
   return request({
     url: '/attendance/get_recent_attendance',
