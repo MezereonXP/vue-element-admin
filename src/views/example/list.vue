@@ -305,6 +305,7 @@ export default {
 }
 
 .data-table {
+  margin-top: 20px;
   background-color: white;
   border-radius: 8px;
   overflow: hidden;
