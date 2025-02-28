@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <h1 style="text-align: center;">{{ title }}</h1>
-    <div style="width: 60%; margin: 20px auto;" v-html="text" />
-    <div style="text-align: center; color: #999; font-size: 14px;">
-      <span>更新时间：{{ formatDate(updated_at) }}</span>
-      <br>
-      <span>创建时间：{{ formatDate(created_at) }}</span>
+  <div class="law-container">
+    <div class="law-card">
+      <h1 class="law-title">{{ title }}</h1>
+      <div class="law-content" v-html="text" />
+      <div class="law-meta">
+        <span><i class="el-icon-time" /> 更新时间：{{ formatDate(updated_at) }}</span>
+        <span><i class="el-icon-date" /> 创建时间：{{ formatDate(created_at) }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -42,3 +43,69 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.law-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.law-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  border: 1px solid #eaeaea;
+}
+
+.law-title {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 20px;
+}
+
+.law-content {
+  width: 85%;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: #333;
+  font-size: 16px;
+}
+
+.law-meta {
+  margin-top: 40px;
+  text-align: right;
+  color: #888;
+  font-size: 14px;
+  border-top: 1px solid #eaeaea;
+  padding-top: 20px;
+}
+
+.law-meta span {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.law-meta i {
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .law-card {
+    padding: 20px;
+  }
+
+  .law-content {
+    width: 100%;
+  }
+
+  .law-title {
+    font-size: 24px;
+  }
+}
+</style>

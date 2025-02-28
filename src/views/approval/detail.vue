@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <h1 style="text-align: center;">{{ title }}</h1>
-    <div style="width: 60%; margin: 20px auto;" v-html="text" />
-    <div style="text-align: center; color: #999; font-size: 14px;">
-      <span>更新时间：{{ formatDate(updated_at) }}</span>
-      <br>
-      <span>创建时间：{{ formatDate(created_at) }}</span>
+  <div class="approval-container">
+    <div class="approval-card">
+      <h1 class="approval-title">{{ title }}</h1>
+      <div class="approval-content" v-html="text" />
+      <div class="approval-meta">
+        <span><i class="el-icon-time" /> 更新时间：{{ formatDate(updated_at) }}</span>
+        <span><i class="el-icon-date" /> 创建时间：{{ formatDate(created_at) }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -42,3 +43,97 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.approval-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.approval-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.approval-title {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 20px;
+}
+
+.approval-content {
+  width: 85%;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: #333;
+  font-size: 16px;
+  overflow-wrap: break-all;
+  word-wrap: break-all;
+  word-break: break-all;
+  white-space: pre-wrap;
+  overflow: auto;
+  max-width: 85%;
+}
+
+.approval-content * {
+  max-width: 85%;
+  word-break: break-all;
+  overflow-wrap: break-all;
+}
+
+.approval-meta {
+  margin-top: 40px;
+  text-align: right;
+  color: #888;
+  font-size: 14px;
+  border-top: 1px solid #eaeaea;
+  padding-top: 20px;
+}
+
+.approval-meta span {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.approval-meta i {
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .approval-card {
+    padding: 20px;
+  }
+
+  .approval-content {
+    width: 100%;
+  }
+
+  .approval-title {
+    font-size: 24px;
+  }
+}
+
+/* Add this to handle content within the approval content */
+.approval-content img,
+.approval-content table,
+.approval-content iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+.approval-content pre,
+.approval-content code {
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+</style>
