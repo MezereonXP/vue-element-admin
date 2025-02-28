@@ -1,9 +1,18 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+    <h1 class="system-name">学生实习管理平台</h1>
+
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      autocomplete="on"
+      label-position="left"
+    >
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">登录</h3>
       </div>
 
       <el-form-item prop="phone_number">
@@ -45,7 +54,12 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >Login</el-button>
 
       <!-- <div style="position:relative">
         <div class="tips">
@@ -205,8 +219,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -231,10 +245,15 @@ $cursor: #fff;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
+      transition: all 0.3s;
 
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
+      }
+
+      &:focus {
+        outline: none;
       }
     }
   }
@@ -244,28 +263,86 @@ $cursor: #fff;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+    transition: all 0.3s;
+    margin-bottom: 25px;
+
+    &:hover {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .el-button {
+    border-radius: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
   }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
+$primary: #4d7cff;
+$primary-gradient: linear-gradient(120deg, #5c86ff, #4264d9);
 
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  background-image: radial-gradient(ellipse at top, #34495e, #2d3a4b);
   overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(135deg, rgba(76, 126, 255, 0.1), rgba(0, 0, 0, 0));
+    transform: skewY(-5deg);
+    transform-origin: top left;
+  }
+
+  .system-name {
+    font-size: 42px;
+    color: $light_gray;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #f5f7fa, #c3cfe2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 2;
+    position: fixed;
+    top: 100px;
+  }
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    padding: 50px 40px;
+    margin: 0;
     overflow: hidden;
+    background: rgba(45, 58, 75, 0.8);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
   }
 
   .tips {
@@ -286,17 +363,31 @@ $light_gray:#eee;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
+    transition: all 0.3s;
   }
 
   .title-container {
     position: relative;
+    margin-bottom: 40px;
 
     .title {
-      font-size: 26px;
+      font-size: 28px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto;
       text-align: center;
-      font-weight: bold;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+      &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: $primary-gradient;
+        margin: 10px auto 0;
+        border-radius: 3px;
+      }
     }
   }
 
@@ -308,6 +399,11 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $light_gray;
+    }
   }
 
   .thirdparty-button {
@@ -316,7 +412,21 @@ $light_gray:#eee;
     bottom: 6px;
   }
 
+  .el-button--primary {
+    background: $primary-gradient;
+    border: none;
+    height: 48px;
+    font-size: 16px;
+    margin-top: 10px;
+    box-shadow: 0 5px 15px rgba(76, 126, 255, 0.4);
+  }
+
   @media only screen and (max-width: 470px) {
+    .login-form {
+      padding: 100px 20px 40px;
+      width: 90%;
+    }
+
     .thirdparty-button {
       display: none;
     }

@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card>
       <div slot="header">
-        <span>学生管理</span>
+        <span class="title">学生管理</span>
       </div>
       <el-button type="primary" plain icon="el-icon-plus" @click="openCreateDialog">新增学生</el-button>
       <el-button type="success" plain icon="el-icon-refresh" @click="getStudentList">刷新</el-button>
@@ -298,3 +298,26 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 4px;
+    background-color: #409EFF;
+    border-radius: 2px;
+  }
+}
+</style>
