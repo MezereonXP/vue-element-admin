@@ -329,10 +329,133 @@ p {
 
 .el-tag {
   border-radius: 4px;
-  padding: 6px 10px;
-  margin-right: 8px;
+  padding: 5px 10px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  font-size: 12px;
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
+}
+
+.el-tag.el-tag--success {
+  background-color: #f0f9eb;
+  border-color: #e1f3d8;
+  color: #67c23a;
+}
+
+.el-tag.el-tag--success:hover {
+  background-color: #e7f6df;
+  border-color: #c2e7b0;
+}
+
+.el-tag.el-tag--danger {
+  background-color: #fef0f0;
+  border-color: #fde2e2;
+  color: #f56c6c;
+}
+
+.el-tag.el-tag--danger:hover {
+  background-color: #fde6e6;
+  border-color: #fbc4c4;
+}
+
+.el-tag.el-tag--info {
+  background-color: #f4f4f5;
+  border-color: #e9e9eb;
+  color: #909399;
+}
+
+.el-tag.el-tag--info:hover {
+  background-color: #ebebec;
+  border-color: #d3d4d6;
+}
+
+.el-tag.el-tag--warning {
+  background-color: #fdf6ec;
+  border-color: #faecd8;
+  color: #e6a23c;
+}
+
+.el-tag.el-tag--warning:hover {
+  background-color: #faecd8;
+  border-color: #f5dab1;
+}
+
+.el-tag.el-tag--primary {
+  background-color: #ecf5ff;
+  border-color: #d9ecff;
+  color: #409EFF;
+}
+
+.el-tag.el-tag--primary:hover {
+  background-color: #d9ecff;
+  border-color: #b3d8ff;
+}
+
+/* Size variations */
+.el-tag--medium {
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+.el-tag--small {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.el-tag--mini {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+/* Calendar cell tags - special case for better fit */
+.el-calendar-table .el-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  margin: 2px 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
+  width: auto;
+}
+
+/* Ensure all calendar cell content is centered */
+.el-calendar-table td div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Add some spacing between date number and tag */
+.el-calendar-table td div>span,
+.el-calendar-table td div>div {
+  margin-bottom: 3px;
+}
+
+/* For spaced tag groups */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+/* For tags that need to stand out more */
+.el-tag.is-important {
+  font-size: 14px;
+  padding: 6px 12px;
+  font-weight: 600;
 }
 
 .el-table {
