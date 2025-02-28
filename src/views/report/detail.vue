@@ -4,8 +4,8 @@
       <h1 class="report-title">{{ title }}</h1>
       <div class="report-content" v-html="text" />
       <div class="report-meta">
-        <span class="report-meta-item">更新时间：{{ formatDate(updated_at) }}</span>
-        <span class="report-meta-item">创建时间：{{ formatDate(created_at) }}</span>
+        <span><i class="el-icon-time" /> 更新时间：{{ formatDate(updated_at) }}</span>
+        <span><i class="el-icon-date" /> 创建时间：{{ formatDate(created_at) }}</span>
       </div>
     </div>
   </div>
