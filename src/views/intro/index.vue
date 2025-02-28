@@ -1,13 +1,21 @@
 <template>
   <div class="container">
     <h1 style="text-align: center;">学校概况</h1>
-    <el-button v-if="isAdmin" type="primary" icon="el-icon-plus" style="margin-left: 20px;" plain @click="openEditorForAdd">添加</el-button>
+    <el-button
+      v-if="isAdmin"
+      type="primary"
+      icon="el-icon-plus"
+      style="margin-left: 20px;"
+      plain
+      @click="openEditorForAdd"
+    >添加</el-button>
 
     <el-table :data="tableData" style="margin-top: 20px;width: 60%; margin: 0 auto;">
       <!-- <el-table-column prop="id" label="编号" width="100" /> -->
       <el-table-column prop="title" label="标题" width="1000">
         <template slot-scope="scope">
-          <router-link :to="`/intro/detail/${scope.row.id}`" style="color: #000; text-decoration: none;">{{ scope.row.title }}</router-link>
+          <router-link :to="`/intro/detail/${scope.row.id}`" style="color: #000; text-decoration: none;">{{
+            scope.row.title }}</router-link>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="更新时间" width="200" :formatter="formatDate" />
@@ -34,7 +42,8 @@
     <el-dialog :visible.sync="addVisible" title="添加">
       <P>标题：</P><el-input v-model="title" placeholder="请输入标题" />
       <br>
-      <P>内容：</P><Tinymce ref="editor" v-model="editorContent" :height="400" />
+      <P>内容：</P>
+      <Tinymce ref="editor" v-model="editorContent" :height="400" />
       <span slot="footer" class="dialog-footer">
         <el-button plain @click="addContent">添加</el-button>
         <el-button plain @click="addVisible = false">取消</el-button>
@@ -43,7 +52,8 @@
     <el-dialog :visible.sync="editorVisible" title="编辑">
       <P>标题：</P><el-input v-model="title" placeholder="请输入标题" />
       <br>
-      <P>内容：</P><Tinymce ref="editor" v-model="editorContent" :height="400" />
+      <P>内容：</P>
+      <Tinymce ref="editor" v-model="editorContent" :height="400" />
       <span slot="footer" class="dialog-footer">
         <el-button plain @click="saveContent">保存</el-button>
         <el-button plain @click="editorVisible = false">取消</el-button>
@@ -113,9 +123,11 @@ export default {
     },
     async saveContent() {
       try {
-        await updateText({ title: this.title,
+        await updateText({
+          title: this.title,
           text_type: this.text_type,
-          text: this.editorContent }, this.id) // Save the updated content
+          text: this.editorContent
+        }, this.id) // Save the updated content
         this.content = this.editorContent // Update the displayed content
         this.editorVisible = false // Close the modal
         this.$message.success('保存成功')
@@ -126,9 +138,11 @@ export default {
     },
     async addContent() {
       try {
-        await addText({ title: this.title,
+        await addText({
+          title: this.title,
           text_type: this.text_type,
-          text: this.editorContent }) // Save the updated content
+          text: this.editorContent
+        }) // Save the updated content
         this.addVisible = false
         this.$message.success('添加成功')
         this.fetchSchoolData()

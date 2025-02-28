@@ -3,29 +3,47 @@
     <!-- <github-corner class="github-corner" /> -->
     <el-row :gutter="32">
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
-          <div style="display: flex; justify-content: space-between;">
-            <img src="@/assets/student.png" style="width: 50px; height: 50px;">
-            <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">学生数目</span>
-            <span style="font-size: 22px; font-weight: bold; float: right; margin-top: 14px; margin-right: 16px;">{{ studentCount }}</span>
+        <el-card class="stat-card">
+          <div style="display: flex; justify-content: space-between; position: relative;">
+            <div>
+              <div style="font-size: 14px; font-weight: 500; margin-bottom: 10px;">学生数目</div>
+              <div style="font-size: 28px; font-weight: bold;">{{ studentCount }}</div>
+            </div>
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="white" opacity="0.9">
+              <path
+                d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+              />
+            </svg>
           </div>
         </el-card>
       </el-col>
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
-          <div style="display: flex; justify-content: space-between;">
-            <img src="@/assets/job.png" style="width: 50px; height: 50px;">
-            <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">实习岗位数目</span>
-            <span style="font-size: 22px; font-weight: bold; float: right; margin-top: 14px; margin-right: 16px;">{{ internshipCount }}</span>
+        <el-card class="stat-card">
+          <div style="display: flex; justify-content: space-between; position: relative;">
+            <div>
+              <div style="font-size: 14px; font-weight: 500; margin-bottom: 10px;">实习岗位数目</div>
+              <div style="font-size: 28px; font-weight: bold;">{{ internshipCount }}</div>
+            </div>
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="white" opacity="0.9">
+              <path
+                d="M10,2H14A2,2 0 0,1 16,4V6H20A2,2 0 0,1 22,8V19A2,2 0 0,1 20,21H4C2.89,21 2,20.1 2,19V8C2,6.89 2.89,6 4,6H8V4C8,2.89 8.89,2 10,2M14,6V4H10V6H14Z"
+              />
+            </svg>
           </div>
         </el-card>
       </el-col>
       <el-col :xs="4" :sm="4" :lg="4">
-        <el-card style="height: 100%; color: #000; background-color: #adb5bd; border-radius: 10px; border-color: #343a40; border-width: 2px;">
-          <div style="display: flex; justify-content: space-between;">
-            <img src="@/assets/contract.png" style="width: 50px; height: 50px;">
-            <span style="font-size: 22px; font-weight: bold; float: left; margin-right: 16px; margin-top: 14px;">上传合同数目</span>
-            <span style="font-size: 22px; font-weight: bold; float: right; margin-top: 14px; margin-right: 16px;">{{ contractCount }}</span>
+        <el-card class="stat-card">
+          <div style="display: flex; justify-content: space-between; position: relative;">
+            <div>
+              <div style="font-size: 14px; font-weight: 500; margin-bottom: 10px;">上传合同数目</div>
+              <div style="font-size: 28px; font-weight: bold;">{{ contractCount }}</div>
+            </div>
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="white" opacity="0.9">
+              <path
+                d="M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"
+              />
+            </svg>
           </div>
         </el-card>
       </el-col>
@@ -35,20 +53,33 @@
       <el-col :xs="5" :sm="5" :lg="5">
         <el-card v-loading="isSchoolOverviewLoading" style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">学校概况</span>
-          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoSchoolOverview">  查看更多>></el-link>
+          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoSchoolOverview"> 查看更多>></el-link>
           <br>
           <br>
-          <div v-if="isSchoolOverviewEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
+          <div
+            v-if="isSchoolOverviewEmpty"
+            style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
+          >
             暂无数据
           </div>
           <div>
             <div v-for="item in schoolOverviewData" :key="item.id">
-              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoSchoolIntro(item.id)">{{ item.title }}</el-link>
+              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoSchoolIntro(item.id)">{{
+                item.title }}</el-link>
               <br>
               <br>
-              <span style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" v-html="clearText(item.text)" />
+              <span
+                style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+                v-html="clearText(item.text)"
+              />
               <br>
-              <span style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"> 最新更新：{{ formatDate(item.updated_at) }}</span>
+              <div style="overflow: hidden; margin-bottom: 8px;">
+                <span
+                  style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"
+                >
+                  最新更新：{{ formatDate(item.updated_at) }}
+                </span>
+              </div>
               <el-divider />
             </div>
           </div>
@@ -57,7 +88,7 @@
       <el-col :xs="5" :sm="5" :lg="5">
         <el-card v-loading="isLawLoading" style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">法律法规文件制度</span>
-          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoLaw">  查看更多>></el-link>
+          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoLaw"> 查看更多>></el-link>
           <br>
           <br>
           <div v-if="isLawEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
@@ -65,12 +96,22 @@
           </div>
           <div>
             <div v-for="item in lawData" :key="item.id">
-              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoLawIntro(item.id)">{{ item.title }}</el-link>
+              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoLawIntro(item.id)">{{
+                item.title }}</el-link>
               <br>
               <br>
-              <span style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" v-html="clearText(item.text)" />
+              <span
+                style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+                v-html="clearText(item.text)"
+              />
               <br>
-              <span style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"> 最新更新：{{ formatDate(item.updated_at) }}</span>
+              <div style="overflow: hidden; margin-bottom: 8px;">
+                <span
+                  style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"
+                >
+                  最新更新：{{ formatDate(item.updated_at) }}
+                </span>
+              </div>
               <el-divider />
             </div>
           </div>
@@ -79,7 +120,7 @@
       <el-col :xs="5" :sm="5" :lg="5">
         <el-card v-loading="isApprovalLoading" style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">实习审批报备管理</span>
-          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoApproval">  查看更多>></el-link>
+          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoApproval"> 查看更多>></el-link>
           <br>
           <br>
           <div v-if="isApprovalEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
@@ -87,12 +128,22 @@
           </div>
           <div>
             <div v-for="item in approvalData" :key="item.id">
-              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoApprovalIntro(item.id)">{{ item.title }}</el-link>
+              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoApprovalIntro(item.id)">{{
+                item.title }}</el-link>
               <br>
               <br>
-              <span style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" v-html="clearText(item.text)" />
+              <span
+                style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+                v-html="clearText(item.text)"
+              />
               <br>
-              <span style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"> 最新更新：{{ formatDate(item.updated_at) }}</span>
+              <div style="overflow: hidden; margin-bottom: 8px;">
+                <span
+                  style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"
+                >
+                  最新更新：{{ formatDate(item.updated_at) }}
+                </span>
+              </div>
               <el-divider />
             </div>
           </div>
@@ -101,7 +152,7 @@
       <el-col :xs="5" :sm="5" :lg="5">
         <el-card v-loading="isReportLoading" style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">企业考察报告</span>
-          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoReport">  查看更多>></el-link>
+          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoReport"> 查看更多>></el-link>
           <br>
           <br>
           <div v-if="isReportEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
@@ -109,12 +160,22 @@
           </div>
           <div>
             <div v-for="item in reportData" :key="item.id">
-              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoReportIntro(item.id)">{{ item.title }}</el-link>
+              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoReportIntro(item.id)">{{
+                item.title }}</el-link>
               <br>
               <br>
-              <span style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" v-html="clearText(item.text)" />
+              <span
+                style="font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+                v-html="clearText(item.text)"
+              />
               <br>
-              <span style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"> 最新更新：{{ formatDate(item.updated_at) }}</span>
+              <div style="overflow: hidden; margin-bottom: 8px;">
+                <span
+                  style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"
+                >
+                  最新更新：{{ formatDate(item.updated_at) }}
+                </span>
+              </div>
               <el-divider />
             </div>
           </div>
@@ -125,19 +186,35 @@
       <el-col :xs="5" :sm="5" :lg="5">
         <el-card v-loading="isInternshipLoading" style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">实习岗位</span>
-          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoInternship">  查看更多>></el-link>
+          <el-link type="info" style="font-size: 12px; float: right;" @click="gotoInternship"> 查看更多>></el-link>
           <br>
           <br>
-          <div v-if="isInternshipEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
+          <div
+            v-if="isInternshipEmpty"
+            style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
+          >
             暂无数据
           </div>
           <div>
             <div v-for="item in jobData" :key="item.id">
-              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoJobIntro(item.id)">{{ item.title }}</el-link>
-              <span style="margin-top: 10px; font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{ item.salary_description }}</span>
-              <span style="margin-top: 10px; font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" v-html="clearText(item.description)" />
+              <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoJobIntro(item.id)">{{
+                item.title }}</el-link>
+              <span
+                style="margin-top: 10px; font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+              >{{
+                item.salary_description }}</span>
+              <span
+                style="margin-top: 10px; font-size: 12px; color: #999; white-space: pre-line; max-height: 100px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+                v-html="clearText(item.description)"
+              />
               <br>
-              <span style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"> 最新更新：{{ formatDate(item.updated_at) }}</span>
+              <div style="overflow: hidden; margin-bottom: 8px;">
+                <span
+                  style="float: right; font-size: 12px; color: #999; text-align: right; margin-right: 20px; margin-top: 3px;"
+                >
+                  最新更新：{{ formatDate(item.updated_at) }}
+                </span>
+              </div>
               <el-divider />
             </div>
           </div>
@@ -145,12 +222,14 @@
       </el-col>
     </el-row>
 
-    <el-dialog
-      title="岗位详情"
-      :visible.sync="viewDialogVisible"
-      width="30%"
-    >
-      <table style="width: 100%; border: 1px solid #000; border-collapse: collapse;" border="1" cellpadding="10" cellspacing="0" border-collapse="collapse">
+    <el-dialog title="岗位详情" :visible.sync="viewDialogVisible" width="30%">
+      <table
+        style="width: 100%; border: 1px solid #000; border-collapse: collapse;"
+        border="1"
+        cellpadding="10"
+        cellspacing="0"
+        border-collapse="collapse"
+      >
         <tr>
           <td style="width: 20%; font-weight: bold;">岗位名称：</td>
           <td style="width: 80%;">{{ form.title }}</td>
@@ -345,6 +424,77 @@ export default {
   padding: 32px;
   background-color: rgb(240, 242, 245);
   position: relative;
+
+  .github-corner {
+    position: absolute;
+    top: 0;
+    border: 0;
+    right: 0;
+  }
+
+  .el-row {
+    margin-bottom: 20px;
+  }
+
+  .el-card {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .el-card__body {
+      padding: 20px;
+    }
+
+    // Card title area
+    span[style*="font-weight: bold"] {
+      position: relative;
+      padding-bottom: 10px;
+      margin-bottom: 5px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 3px;
+        background: #409EFF;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .el-link {
+    transition: all 0.3s;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &[type="primary"] {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    &[type="info"] {
+      border-radius: 4px;
+      padding: 2px 6px;
+      background-color: rgba(64, 158, 255, 0.08);
+
+      &:hover {
+        background-color: rgba(64, 158, 255, 0.15);
+      }
+    }
+  }
+
   .el-list-item {
     border-bottom: 1px solid #e6e6e6;
     padding: 10px 0;
@@ -358,5 +508,69 @@ export default {
     transition: all 0.3s ease;
   }
 
+  .info-card {
+    border-left: 4px solid #409EFF;
+    padding-left: 10px;
+    margin-bottom: 15px;
+  }
+
+  .stat-card {
+    height: 100%;
+    color: #fff;
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+    position: relative;
+
+    &:nth-child(1) {
+      background: linear-gradient(135deg, #2c3e50 0%, #1a1a1a 100%);
+    }
+
+    &:nth-child(2) {
+      background: linear-gradient(135deg, #232526 0%, #000000 100%);
+    }
+
+    &:nth-child(3) {
+      background: linear-gradient(135deg, #333333 0%, #121212 100%);
+    }
+
+    .stat-icon {
+      position: absolute;
+      bottom: -15px;
+      right: 10px;
+      font-size: 60px;
+      opacity: 0.2;
+    }
+  }
+
+  .el-divider {
+    margin: 12px 0;
+  }
+
+  // Added styles for list items
+  [v-for] {
+    background-color: #fafafa;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+
+    &:hover {
+      background-color: #f0f7ff;
+      border-left-color: #409EFF;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    span[style*="float: right"] {
+      background-color: rgba(0, 0, 0, 0.03);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  }
 }
 </style>
