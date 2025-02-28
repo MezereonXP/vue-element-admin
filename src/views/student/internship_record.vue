@@ -2,7 +2,7 @@
   <div class="internship-record-container">
     <el-card>
       <div slot="header">
-        <span>实习记录管理</span>
+        <span class="title">实习记录管理</span>
       </div>
       <el-button type="primary" icon="el-icon-plus" plain @click="handleCreate">创建实习记录</el-button>
       <el-input v-model="search" placeholder="请输入手机号/姓名/公司名称/岗位" style="width: 300px; margin-left: 20px;" />
@@ -182,5 +182,26 @@ export default {
 <style scoped>
 .internship-record-container {
   padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 4px;
+    background-color: #409EFF;
+    border-radius: 2px;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="attendance-container">
     <el-card>
       <div slot="header">
-        <span>学生考勤情况</span>
+        <span class="title">学生考勤情况</span>
       </div>
       <el-input v-model="search" placeholder="请输入学生姓名或者手机号" style="width: 200px; margin-bottom: 10px;" />
       <el-button type="primary" style="margin-left: 10px;" plain @click="searchAttendance">搜索</el-button>
@@ -76,6 +76,27 @@ export default {
 
 <style lang="scss" scoped>
 .attendance-container {
-    padding: 20px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 4px;
+    background-color: #409EFF;
+    border-radius: 2px;
+  }
 }
 </style>

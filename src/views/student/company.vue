@@ -2,7 +2,7 @@
   <div class="container">
     <el-card>
       <div slot="header">
-        <span>实习企业信息管理</span>
+        <span class="title">实习企业信息管理</span>
       </div>
       <el-button type="primary" plain icon="el-icon-plus" @click="handleCreate">添加企业</el-button>
       <el-table v-loading="loading" :data="tableData" style="width: 100%; margin-top: 20px;" border>
@@ -231,5 +231,27 @@ export default {
 <style scoped>
 .container {
   padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 4px;
+    background-color: #409EFF;
+    border-radius: 2px;
+  }
+
 }
 </style>

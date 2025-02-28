@@ -2,7 +2,7 @@
   <div class="container">
     <el-card>
       <div slot="header">
-        <span>实习评价管理</span>
+        <span class="title">实习评价管理</span>
       </div>
       <el-input v-model="search_keyword" placeholder="请输入姓名或者手机号" style="width: 200px; margin-top: 20px;" />
       <el-button
@@ -204,5 +204,27 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
   padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 4px;
+    background-color: #409EFF;
+    border-radius: 2px;
+  }
+
 }
 </style>
