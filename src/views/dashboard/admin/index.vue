@@ -422,8 +422,14 @@ export default {
 <style lang="scss" scoped>
 .dashboard-editor-container {
   padding: 32px;
-  background-color: rgb(240, 242, 245);
+  background-color: #f5f7fa;
+  background-image:
+    radial-gradient(#e0e5ec 1px, transparent 1px),
+    radial-gradient(#e0e5ec 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
   position: relative;
+  min-height: calc(100vh - 100px);
 
   .github-corner {
     position: absolute;
@@ -433,132 +439,149 @@ export default {
   }
 
   .el-row {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
   }
 
   .el-card {
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
     overflow: hidden;
+    border: none;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.95);
+    will-change: transform;
+    transform: translateZ(0);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(64, 158, 255, 0.1);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
 
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+      &::before {
+        opacity: 1;
+      }
     }
 
     .el-card__body {
-      padding: 20px;
+      padding: 24px;
     }
 
-    // Card title area
     span[style*="font-weight: bold"] {
       position: relative;
       padding-bottom: 10px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      font-size: 17px;
+      color: #2c3e50;
+      letter-spacing: 0.3px;
+      display: inline-block;
+      font-weight: 600 !important;
 
       &::after {
         content: '';
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 40px;
+        width: 30px;
         height: 3px;
         background: #409EFF;
-        border-radius: 3px;
+        border-radius: 2px;
+        transition: width 0.15s ease-out;
       }
+    }
+
+    &:hover span[style*="font-weight: bold"]::after {
+      width: 50px;
     }
   }
 
   .el-link {
-    transition: all 0.3s;
+    transition: color 0.15s ease, transform 0.15s ease;
     font-weight: 500;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     &[type="primary"] {
       position: relative;
       display: inline-block;
       margin-bottom: 10px;
+      font-weight: 600;
+      color: #2c3e50;
+
+      &:hover {
+        color: #409EFF;
+        transform: translateX(2px);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background-color: #409EFF;
+        transition: width 0.15s ease-out;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
     }
 
     &[type="info"] {
-      border-radius: 4px;
-      padding: 2px 6px;
-      background-color: rgba(64, 158, 255, 0.08);
+      border-radius: 20px;
+      padding: 4px 12px;
+      background-color: rgba(64, 158, 255, 0.05);
+      font-size: 12px;
+      color: #606266;
+      border: 1px solid rgba(64, 158, 255, 0.1);
 
       &:hover {
-        background-color: rgba(64, 158, 255, 0.15);
+        background-color: rgba(64, 158, 255, 0.1);
+        color: #409EFF;
+        transform: translateX(2px);
       }
     }
   }
 
-  .el-list-item {
-    border-bottom: 1px solid #e6e6e6;
-    padding: 10px 0;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-  }
-
-  .info-card {
-    border-left: 4px solid #409EFF;
-    padding-left: 10px;
-    margin-bottom: 15px;
-  }
-
-  .stat-card {
-    height: 100%;
-    color: #fff;
-    border-radius: 12px;
-    border: none;
-    overflow: hidden;
-    position: relative;
-
-    &:nth-child(1) {
-      background: linear-gradient(135deg, #2c3e50 0%, #1a1a1a 100%);
-    }
-
-    &:nth-child(2) {
-      background: linear-gradient(135deg, #232526 0%, #000000 100%);
-    }
-
-    &:nth-child(3) {
-      background: linear-gradient(135deg, #333333 0%, #121212 100%);
-    }
-
-    .stat-icon {
-      position: absolute;
-      bottom: -15px;
-      right: 10px;
-      font-size: 60px;
-      opacity: 0.2;
-    }
-  }
-
   .el-divider {
-    margin: 12px 0;
+    margin: 16px 0;
+    opacity: 0.4;
   }
 
-  // Added styles for list items
   [v-for] {
-    background-color: #fafafa;
-    border-radius: 6px;
-    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 18px;
     margin-bottom: 16px;
-    transition: all 0.2s ease;
+    transition: transform 0.15s ease, border-left-color 0.15s ease;
     border-left: 3px solid transparent;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
 
     &:hover {
-      background-color: #f0f7ff;
+      background-color: #ffffff;
       border-left-color: #409EFF;
+      transform: translateX(2px);
     }
 
     &:last-child {
@@ -566,10 +589,165 @@ export default {
     }
 
     span[style*="float: right"] {
-      background-color: rgba(0, 0, 0, 0.03);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 12px;
+      background-color: rgba(0, 0, 0, 0.02);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #909399;
+      letter-spacing: 0.2px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  .el-dialog {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    .el-dialog__header {
+      background: #f9fafc;
+      padding: 15px 20px;
+    }
+
+    .el-dialog__body {
+      padding: 30px;
+    }
+
+    .el-dialog__footer {
+      border-top: 1px solid #ebeef5;
+      padding: 15px 20px;
+    }
+
+    .dialog-footer {
+      .el-button {
+        border-radius: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  }
+
+  .el-loading-mask {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  // Gray-themed Stat cards with highly optimized animations
+  .stat-card {
+    height: 100%;
+    color: #fff;
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateZ(0);
+    will-change: transform;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 0;
+    }
+
+    &:nth-child(1) {
+      background: #444444;
+      border: 1px solid rgba(100, 100, 100, 0.2);
+    }
+
+    &:nth-child(2) {
+      background: #3d3d3d;
+      border: 1px solid rgba(100, 100, 100, 0.2);
+    }
+
+    &:nth-child(3) {
+      background: #464646;
+      border: 1px solid rgba(100, 100, 100, 0.2);
+    }
+
+    .el-card__body {
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    svg {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.2;
+      transition: transform 0.2s ease;
+      z-index: 1;
+      width: 55px;
+      height: 55px;
+      will-change: transform;
+    }
+
+    &:hover svg {
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    div[style*="font-size: 14px"] {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      font-size: 13px !important;
+      opacity: 0.9;
+      position: relative;
+      padding-left: 12px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.7;
+      }
+    }
+
+    div[style*="font-size: 28px"] {
+      font-size: 32px !important;
+      letter-spacing: -0.5px;
+      margin-top: 8px;
+      font-weight: 700 !important;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  // "View more" links with simplified animations
+  .el-link[type="info"] {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '→';
+      position: absolute;
+      right: -20px;
+      opacity: 0;
+      transition: all 0.15s ease;
+    }
+
+    &:hover::before {
+      right: 8px;
+      opacity: 1;
+    }
+
+    &:hover {
+      padding-right: 20px;
     }
   }
 }
