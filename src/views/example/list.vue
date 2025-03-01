@@ -240,7 +240,7 @@ export default {
         'page': this.listQuery.page,
         'limit': this.listQuery.limit
       }
-      if (this.filterDateRange !== '') {
+      if (this.filterDateRange !== '' && this.filterDateRange !== null && this.filterDateRange !== undefined) {
         // 将日期范围转换为YYYY-MM-DD using moment.js
         query.start_date = moment(this.filterDateRange[0]).format('YYYY-MM-DD')
         query.end_date = moment(this.filterDateRange[1]).format('YYYY-MM-DD')
