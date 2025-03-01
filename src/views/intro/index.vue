@@ -95,26 +95,19 @@
       :close-on-click-modal="false"
       :before-close="handleCloseDialog"
     >
-      <div class="dialog-content">
-        <div class="form-group" :class="{ 'has-error': titleError }">
-          <label>标题：<span class="required">*</span></label>
-          <el-input v-model="title" placeholder="请输入标题" maxlength="100" show-word-limit @input="validateTitle" />
+      <el-form :model="form" class="dialog-content">
+        <el-form-item label="标题" :class="{ 'has-error': titleError }">
+          <el-input v-model="form.title" placeholder="请输入标题" maxlength="100" show-word-limit @input="validateTitle" />
           <div v-if="titleError" class="error-message">{{ titleError }}</div>
-        </div>
-        <div class="form-group" :class="{ 'has-error': contentError }">
-          <label>内容：<span class="required">*</span></label>
-          <Tinymce ref="editor" v-model="editorContent" :height="400" @change="validateContent" />
+        </el-form-item>
+        <el-form-item label="内容" :class="{ 'has-error': contentError }">
+          <Tinymce ref="editor" v-model="form.content" :height="400" @change="validateContent" />
           <div v-if="contentError" class="error-message">{{ contentError }}</div>
-        </div>
-      </div>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleCloseDialog">取消</el-button>
-        <el-button
-          type="primary"
-          :loading="submitLoading"
-          :disabled="!isFormValid || submitLoading"
-          @click="saveContent"
-        >保存</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="saveContent">保存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -148,21 +141,22 @@ export default {
       titleError: '',
       contentError: '',
       submitLoading: false,
-      formChanged: false
+      formChanged: false,
+      form: {
+        title: '',
+        content: ''
+      }
     }
   },
   computed: {
     ...mapGetters([
       'name',
       'avatar',
-      'roles',
-      'id'
+      'roles'
     ]),
     isFormValid() {
-      return this.title.trim() !== '' &&
-        this.editorContent.trim() !== '' &&
-        !this.titleError &&
-        !this.contentError
+      return this.form.title.trim() !== '' &&
+        this.form.content.trim() !== ''
     }
   },
   created() {
@@ -191,20 +185,24 @@ export default {
     },
     validateTitle() {
       this.formChanged = true
-      if (!this.title.trim()) {
+      this.isFormValid = false
+      if (!this.form.title.trim()) {
         this.titleError = '标题不能为空'
-      } else if (this.title.length > 100) {
+      } else if (this.form.title.length > 100) {
         this.titleError = '标题不能超过100个字符'
       } else {
         this.titleError = ''
+        this.isFormValid = true
       }
     },
     validateContent() {
       this.formChanged = true
-      if (!this.editorContent.trim()) {
+      this.isFormValid = false
+      if (!this.form.content.trim()) {
         this.contentError = '内容不能为空'
       } else {
         this.contentError = ''
+        this.isFormValid = true
       }
     },
     validateForm() {
@@ -220,12 +218,19 @@ export default {
           type: 'warning'
         }).then(() => {
           this.resetForm()
-        }).catch(() => { })
+        }).catch(() => {
+          this.resetForm()
+        })
       } else {
         this.resetForm()
       }
     },
     resetForm() {
+      // Reset form values
+      this.form = {
+        title: '',
+        content: ''
+      }
       this.title = ''
       this.editorContent = ''
       this.titleError = ''
@@ -247,9 +252,9 @@ export default {
       try {
         this.submitLoading = true
         await updateText({
-          title: this.title,
+          title: this.form.title,
           text_type: this.text_type,
-          text: this.editorContent
+          text: this.form.content
         }, this.id)
 
         this.$notify({
@@ -284,9 +289,9 @@ export default {
       try {
         this.submitLoading = true
         await addText({
-          title: this.title,
+          title: this.form.title,
           text_type: this.text_type,
-          text: this.editorContent
+          text: this.form.content
         })
 
         this.$notify({
@@ -352,16 +357,34 @@ export default {
     },
     openEditor(row) {
       this.id = row.id
-      this.title = row.title
-      this.editorContent = row.text
+      this.form.title = row.title
+      this.form.content = row.text
       this.formChanged = false
+
+      // Open the dialog first
       this.editorVisible = true
+
+      // Use nextTick to ensure the editor is properly reinitialized after the dialog opens
+      this.$nextTick(() => {
+        // If there's an editor instance with setContent method, use it
+        if (this.$refs.editor && typeof this.$refs.editor.setContent === 'function') {
+          this.$refs.editor.setContent(row.text)
+        }
+      })
     },
     openEditorForAdd() {
-      this.title = ''
-      this.editorContent = ''
+      this.form.title = ''
+      this.form.content = ''
       this.formChanged = false
       this.addVisible = true
+
+      // Use nextTick to ensure the editor is properly initialized after the dialog opens
+      this.$nextTick(() => {
+        // If there's an editor instance with setContent method, use it
+        if (this.$refs.editor && typeof this.$refs.editor.setContent === 'function') {
+          this.$refs.editor.setContent('')
+        }
+      })
     },
     formatDate(row, column) {
       return moment(row.updated_at).utc().format('YYYY-MM-DD HH:mm:ss')

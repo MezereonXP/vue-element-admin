@@ -338,6 +338,13 @@ export default {
                 ...response.data
               }
               this.editDialogVisible = true
+              // Use nextTick to ensure the editor is properly reinitialized after the dialog opens
+              this.$nextTick(() => {
+                // If there's an editor instance with setContent method, use it
+                if (this.$refs.editor && typeof this.$refs.editor.setContent === 'function') {
+                  this.$refs.editor.setContent(this.editDialogData.content)
+                }
+              })
             }, 100)
           })
         } else {
