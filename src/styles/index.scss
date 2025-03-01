@@ -189,3 +189,19 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+// Disable animations during route transitions to improve performance
+.route-transitioning {
+
+  .el-card,
+  [v-for],
+  .stat-card {
+    transition: none !important;
+  }
+
+  .stat-card svg,
+  .el-link,
+  span[style*="font-weight: bold"]::after {
+    transition: none !important;
+  }
+}

@@ -1,6 +1,6 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
+    <transition name="fade-transform" mode="out-in" @before-enter="beforeEnter" @after-leave="afterLeave">
       <keep-alive :include="cachedViews">
         <router-view :key="key" />
       </keep-alive>
@@ -17,6 +17,16 @@ export default {
     },
     key() {
       return this.$route.path
+    }
+  },
+  methods: {
+    beforeEnter() {
+      // Set a class to reduce animations during transitions
+      document.body.classList.add('route-transitioning')
+    },
+    afterLeave() {
+      // Remove the class after transition completes
+      document.body.classList.remove('route-transitioning')
     }
   }
 }

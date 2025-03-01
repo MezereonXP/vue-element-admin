@@ -293,12 +293,21 @@ export default {
     }
   },
   created() {
-    this.getSchoolOverviewData()
-    this.getLawData()
-    this.getReportData()
-    this.getApprovalData()
-    this.getInternshipData()
+    // Only load critical stats immediately
     this.getStatistic()
+
+    // Use setTimeout to delay non-critical data loading
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.getSchoolOverviewData()
+
+        // Stagger API calls to avoid overwhelming the browser
+        setTimeout(() => { this.getLawData() }, 100)
+        setTimeout(() => { this.getReportData() }, 200)
+        setTimeout(() => { this.getApprovalData() }, 300)
+        setTimeout(() => { this.getInternshipData() }, 400)
+      }, 200)
+    })
   },
   methods: {
     getSchoolOverviewData() {
@@ -452,8 +461,6 @@ export default {
     border: none;
     position: relative;
     background-color: rgba(255, 255, 255, 0.95);
-    will-change: transform;
-    transform: translateZ(0);
 
     &::before {
       content: '';
@@ -470,6 +477,7 @@ export default {
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      will-change: transform, box-shadow;
 
       &::before {
         opacity: 1;
@@ -631,7 +639,6 @@ export default {
     background-color: rgba(255, 255, 255, 0.8);
   }
 
-  // Gray-themed Stat cards with highly optimized animations
   .stat-card {
     height: 100%;
     color: #fff;
@@ -640,8 +647,6 @@ export default {
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateZ(0);
-    will-change: transform;
 
     &::before {
       content: '';
@@ -686,11 +691,16 @@ export default {
       z-index: 1;
       width: 55px;
       height: 55px;
-      will-change: transform;
     }
 
-    &:hover svg {
-      transform: translateY(-50%) scale(1.05);
+    &:hover {
+      transform: translateY(-1px);
+      will-change: transform;
+
+      svg {
+        transform: translateY(-50%) scale(1.05);
+        will-change: transform;
+      }
     }
 
     div[style*="font-size: 14px"] {
@@ -722,13 +732,8 @@ export default {
       margin-top: 8px;
       font-weight: 700 !important;
     }
-
-    &:hover {
-      transform: translateY(-1px);
-    }
   }
 
-  // "View more" links with simplified animations
   .el-link[type="info"] {
     position: relative;
     overflow: hidden;
