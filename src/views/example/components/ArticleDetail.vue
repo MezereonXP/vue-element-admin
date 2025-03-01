@@ -19,10 +19,8 @@
           <!-- <Warning /> -->
 
           <el-col :span="24">
-            <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput v-model="postForm.title" :maxlength="100" name="name" required>
-                标题
-              </MDinput>
+            <el-form-item style="margin-bottom: 40px;" prop="title" label="合同标题" class="title-input">
+              <el-input v-model="postForm.title" placeholder="请输入合同标题" required />
             </el-form-item>
 
             <div class="postInfo-container">
@@ -34,7 +32,7 @@
                 </el-col>
 
                 <el-col :span="10">
-                  <el-form-item label-width="120px" label="最近一次编辑:" class="postInfo-container-item">
+                  <el-form-item v-if="displayTime" label-width="120px" label="最近一次编辑:" class="postInfo-container-item">
                     <el-date-picker
                       v-model="displayTime"
                       type="datetime"
@@ -45,30 +43,13 @@
                   </el-form-item>
                 </el-col>
 
-                <!-- <el-col :span="6">
-                  <el-form-item label-width="90px" label="Importance:" class="postInfo-container-item">
-                    <el-rate
-                      v-model="postForm.importance"
-                      :max="3"
-                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                      :low-threshold="1"
-                      :high-threshold="3"
-                      style="display:inline-block"
-                    />
-                  </el-form-item>
-                </el-col> -->
               </el-row>
             </div>
           </el-col>
         </el-row>
 
-        <!-- <el-form-item style="margin-bottom: 40px;" label-width="70px" label="Summary:">
-          <el-input v-model="postForm.content_short" :rows="1" type="textarea" class="article-textarea" autosize placeholder="Please enter the content" />
-          <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}words</span>
-        </el-form-item> -->
-
         <el-form-item prop="content" style="margin-bottom: 30px;">
-          <Tinymce ref="editor" v-model="postForm.content" :height="400" />
+          <Tinymce ref="editor" v-model="postForm.content" :height="400" width="80%" />
         </el-form-item>
 
         <el-form-item prop="image_uri" style="margin-bottom: 30px;">
@@ -83,7 +64,6 @@
 import { mapGetters } from 'vuex'
 import Tinymce from '@/components/Tinymce'
 import Upload from '@/components/Upload/SingleImage3'
-import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { validURL } from '@/utils/validate'
 import { createItem, fetchItem, updateItem } from '@/api/item'
@@ -110,7 +90,7 @@ const defaultForm = {
 
 export default {
   name: 'ArticleDetail',
-  components: { Tinymce, MDinput, Upload, Sticky },
+  components: { Tinymce, Upload, Sticky },
   props: {
     isEdit: {
       type: Boolean,
@@ -361,6 +341,15 @@ export default {
     border: none;
     border-radius: 0px;
     border-bottom: 1px solid #bfcbd9;
+  }
+}
+
+.title-input ::v-deep {
+  .el-input__inner {
+    border-radius: 0px;
+    border-bottom: 1px solid #bfcbd9;
+    display: inline-block;
+    width: 80%;
   }
 }
 </style>

@@ -121,3 +121,11 @@ export function updatePassword(data) {
     data
   })
 }
+
+export function uploadImg(data) {
+  return request({
+    url: '/upload/upload_img',
+    method: 'post',
+    data
+  })
+}
