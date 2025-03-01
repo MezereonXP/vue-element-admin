@@ -646,32 +646,33 @@ export default {
     border: none;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     &::before {
       content: '';
       position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+      opacity: 0.6;
       z-index: 0;
     }
 
     &:nth-child(1) {
-      background: #444444;
+      background: linear-gradient(135deg, #444444, #3a3a3a);
       border: 1px solid rgba(100, 100, 100, 0.2);
     }
 
     &:nth-child(2) {
-      background: #3d3d3d;
+      background: linear-gradient(135deg, #3d3d3d, #333333);
       border: 1px solid rgba(100, 100, 100, 0.2);
     }
 
     &:nth-child(3) {
-      background: #464646;
+      background: linear-gradient(135deg, #464646, #3c3c3c);
       border: 1px solid rgba(100, 100, 100, 0.2);
     }
 
@@ -686,20 +687,20 @@ export default {
       right: 15px;
       top: 50%;
       transform: translateY(-50%);
-      opacity: 0.2;
-      transition: transform 0.2s ease;
+      opacity: 0.15;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       z-index: 1;
       width: 55px;
       height: 55px;
     }
 
     &:hover {
-      transform: translateY(-1px);
-      will-change: transform;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
 
       svg {
-        transform: translateY(-50%) scale(1.05);
-        will-change: transform;
+        opacity: 0.25;
+        right: 14px;
       }
     }
 
@@ -711,6 +712,7 @@ export default {
       opacity: 0.9;
       position: relative;
       padding-left: 12px;
+      transition: all 0.3s ease;
 
       &::before {
         content: '';
@@ -731,6 +733,11 @@ export default {
       letter-spacing: -0.5px;
       margin-top: 8px;
       font-weight: 700 !important;
+      transition: all 0.3s ease;
+    }
+
+    &:hover div[style*="font-size: 28px"] {
+      transform: translateX(2px);
     }
   }
 

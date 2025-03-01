@@ -570,4 +570,51 @@ export default {
     width: calc(100% - 30px);
   }
 }
+
+/* Dialog Styling */
+::v-deep .el-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+::v-deep .el-dialog__header {
+  padding: 20px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eaecef;
+}
+
+::v-deep .el-dialog__title {
+  font-weight: 600;
+  color: #344767;
+  font-size: 18px;
+}
+
+::v-deep .el-dialog__body {
+  padding: 24px;
+}
+
+::v-deep .el-dialog__footer {
+  padding: 16px 24px;
+  border-top: 1px solid #eaecef;
+}
+
+/* Form Styling */
+::v-deep .el-form-item__label {
+  font-weight: 500;
+  color: #344767;
+}
+
+::v-deep .el-input__inner,
+::v-deep .el-select .el-input__inner {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 10px 15px;
+  height: 42px;
+}
+
+::v-deep .el-input__inner:focus,
+::v-deep .el-select .el-input__inner:focus {
+  border-color: #5e72e4;
+}
 </style>
