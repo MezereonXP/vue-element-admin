@@ -53,8 +53,17 @@
         </el-form-item>
 
         <el-form-item prop="image_uri" style="margin-bottom: 30px;">
-          <Upload v-model="postForm.image_uri" />
+          <Upload v-model="postForm.image_uri" @progress="handleProgress" />
+          <el-progress
+            v-if="uploadProgress > 0 && uploadProgress <= 100"
+            :percentage="uploadProgress"
+            :stroke-width="4"
+            style="width: 35%;"
+            :status="uploadProgress === 100 ? 'success' : 'warning'"
+          />
+
         </el-form-item>
+
       </div>
     </el-form>
   </div>
@@ -127,6 +136,7 @@ export default {
     return {
       postForm: Object.assign({}, defaultForm),
       loading: false,
+      uploadProgress: 0,
       userListOptions: [],
       rules: {
         image_uri: [{ validator: validateRequire }],
@@ -301,6 +311,9 @@ export default {
         if (!response.data.items) return
         this.userListOptions = response.data.items.map(v => v.name)
       })
+    },
+    handleProgress(event) {
+      this.uploadProgress = Math.round((event.loaded / event.total) * 100)
     }
   }
 }

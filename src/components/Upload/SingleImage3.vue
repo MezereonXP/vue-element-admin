@@ -1,10 +1,13 @@
 <template>
   <div class="upload-container">
     <el-upload
+      v-if="imageUrl.length === 0"
       :data="dataObj"
       :multiple="false"
       :show-file-list="false"
       :on-success="handleImageSuccess"
+      :on-progress="handleProgress"
+      :before-upload="beforeUpload"
       class="image-uploader"
       drag
       name="file"
@@ -15,9 +18,10 @@
       <div class="el-upload__text">
         将图片拖到此处，或<em>点击上传</em>
       </div>
+      <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png/gif文件，且不超过3MB</div>
     </el-upload>
-    <div class="image-preview image-app-preview">
-      <div v-show="imageUrl.length > 1" class="image-preview-wrapper">
+    <div v-else class="image-preview image-app-preview">
+      <div class="image-preview-wrapper">
         <img :src="imageUrl">
         <div class="image-preview-action">
           <i class="el-icon-delete" @click="rmImage" />
@@ -50,7 +54,9 @@ export default {
   data() {
     return {
       tempUrl: '',
-      dataObj: { token: '', key: '' }
+      dataObj: { token: '', key: '' },
+      allowedTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'],
+      uploadProgress: 0
     }
   },
   computed: {
@@ -65,12 +71,30 @@ export default {
     emitInput(val) {
       this.$emit('input', val)
     },
+    beforeUpload(file) {
+      const isValidType = this.allowedTypes.includes(file.type)
+      const isLt5M = file.size / 1024 / 1024 < 3
+      if (!isValidType) {
+        this.$message.error('上传图片只能是JPG/PNG/GIF格式!')
+        return false
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过3MB!')
+        return false
+      }
+      return true
+    },
+    handleProgress(event, file) {
+      this.$emit('progress', event)
+    },
     handleImageSuccess(file) {
       if (file.code !== 20000) {
         this.$message.error(file.error)
         return
       }
       this.emitInput(file.img_url)
+      // Reset progress when upload is complete
+      this.$emit('progress', { loaded: 0, total: 1 })
     },
     make_headers() {
       return {
@@ -151,8 +175,8 @@ export default {
   }
 
   .image-app-preview {
-    width: 320px;
-    height: 180px;
+    width: auto;
+    height: 200px;
     position: relative;
     border: 1px dashed #d9d9d9;
     float: left;
