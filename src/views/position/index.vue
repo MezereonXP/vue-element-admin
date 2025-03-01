@@ -44,7 +44,7 @@
       :total="total"
       :page-size="pageSize"
       :current-page="currentPage"
-      style="margin-top: 20px;"
+      class="pagination-container"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       @prev-click="handlePrevClick"
@@ -52,34 +52,28 @@
     />
 
     <el-dialog title="岗位详情" :visible.sync="viewDialogVisible" width="50%">
-      <table
-        style="width: 100%; border: 1px solid #000; border-collapse: collapse;"
-        border="1"
-        cellpadding="10"
-        cellspacing="0"
-        border-collapse="collapse"
-      >
-        <tr>
-          <td style="width: 20%; font-weight: bold;">岗位名称：</td>
-          <td style="width: 80%;">{{ form.title }}</td>
-        </tr>
-        <tr>
-          <td style="width: 20%; font-weight: bold;">实习企业：</td>
-          <td style="width: 80%;">{{ form.company_name }}</td>
-        </tr>
-        <tr>
-          <td style="width: 20%; font-weight: bold;">岗位地点：</td>
-          <td style="width: 80%;">{{ form.location }}</td>
-        </tr>
-        <tr>
-          <td style="width: 20%; font-weight: bold;">岗位薪资：</td>
-          <td style="width: 80%;">{{ form.salary_description }}</td>
-        </tr>
-        <tr>
-          <td style="width: 20%; font-weight: bold;">岗位职责：</td>
-          <td style="width: 80%;" v-html="form.description" />
-        </tr>
-      </table>
+      <div class="position-detail">
+        <div class="detail-item">
+          <div class="detail-label">岗位名称</div>
+          <div class="detail-value">{{ form.title }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">实习企业</div>
+          <div class="detail-value">{{ form.company_name }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">岗位地点</div>
+          <div class="detail-value">{{ form.location }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">岗位薪资</div>
+          <div class="detail-value">{{ form.salary_description }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">岗位职责</div>
+          <div class="detail-value description-content" v-html="form.description" />
+        </div>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="viewDialogVisible = false">关闭</el-button>
       </div>
@@ -197,32 +191,17 @@ export default {
 
 .refresh-button {
   margin-left: 20px;
-  background-color: #409EFF;
+  background-color: #67758d;
   color: #fff;
   border: none;
 
   .el-icon-refresh.is-refreshing {
-    -webkit-animation: spin 1s linear infinite;
-    -moz-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
-  }
-}
-
-@-moz-keyframes spin {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-
-@-webkit-keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
   }
 }
 
 @keyframes spin {
   100% {
-    -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
@@ -325,139 +304,169 @@ h2 {
 }
 
 /* Pagination styling */
-.el-pagination {
-  text-align: center;
-  margin: 35px 0 20px;
-  padding: 15px 0;
-  background-color: #f9fafc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+.pagination-container {
+  padding: 20px 0 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.el-pagination ::v-deep .el-pagination__total,
-.el-pagination ::v-deep .el-pagination__jump {
-  color: #606880;
+::v-deep .el-pagination button,
+::v-deep .el-pagination span:not([class*=suffix]) {
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  line-height: 32px;
 }
 
-.el-pagination ::v-deep .btn-prev,
-.el-pagination ::v-deep .btn-next {
+::v-deep .el-pagination .el-select .el-input {
+  width: 110px;
+  margin: 0 5px;
+}
+
+::v-deep .el-pagination .el-select .el-input__inner {
+  height: 32px;
+  line-height: 32px;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 14px;
   border-radius: 4px;
-  transition: all 0.2s;
 }
 
-.el-pagination ::v-deep .el-pager li {
-  border-radius: 4px;
+::v-deep .el-pagination__sizes {
+  margin: 0 10px 0 0;
+}
+
+::v-deep .el-pagination.is-background .el-pager li {
   min-width: 32px;
   height: 32px;
   line-height: 32px;
+  border-radius: 4px;
   font-weight: 500;
-  color: #606880;
-  transition: all 0.2s;
-}
-
-.el-pagination ::v-deep .el-pager li.active {
-  background-color: #409eff;
-  color: white;
-  font-weight: 600;
-}
-
-.el-pagination ::v-deep .el-pager li:hover:not(.active) {
-  color: #409eff;
-}
-
-/* Dialog styling */
-.el-dialog ::v-deep .el-dialog__header {
-  padding: 20px 25px;
-  border-bottom: 1px solid #ebeef5;
-  position: relative;
-}
-
-.el-dialog ::v-deep .el-dialog__title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #303133;
-  position: relative;
-  padding-left: 12px;
-}
-
-.el-dialog ::v-deep .el-dialog__title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 16px;
-  width: 3px;
-  background-color: #409EFF;
-  border-radius: 2px;
-}
-
-.el-dialog ::v-deep .el-dialog__body {
-  padding: 25px 30px;
-}
-
-.el-dialog ::v-deep .el-dialog__footer {
-  padding: 15px 25px 20px;
-  border-top: 1px solid #ebeef5;
-  text-align: right;
-}
-
-.el-dialog ::v-deep .el-dialog__wrapper {
-  backdrop-filter: blur(5px);
-}
-
-.el-dialog ::v-deep .el-dialog {
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.el-dialog ::v-deep .el-dialog__headerbtn {
-  font-size: 18px;
-  top: 20px;
-  right: 20px;
-}
-
-.el-dialog ::v-deep .el-dialog__headerbtn:hover .el-dialog__close {
-  color: #409EFF;
-  transform: rotate(90deg);
-  transition: all 0.3s ease;
-}
-
-.el-dialog ::v-deep .el-dialog__close {
-  transition: all 0.3s ease;
-}
-
-/* Dialog content table styling */
-.el-dialog table {
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid #ebeef5 !important;
-}
-
-.el-dialog table td {
-  padding: 14px 20px !important;
-  line-height: 1.5;
+  margin: 0 3px;
+  background-color: #f4f6f9;
   color: #606266;
-  border: 1px solid #ebeef5 !important;
+  border: none;
 }
 
-.el-dialog table tr td:first-child {
-  background-color: #f8f9fc;
-  color: #303133;
+::v-deep .el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #5e72e4;
+  color: white;
+}
+
+::v-deep .el-pagination.is-background .el-pager li:not(.disabled):hover {
+  color: #5e72e4;
+}
+
+::v-deep .el-pagination.is-background .btn-prev,
+::v-deep .el-pagination.is-background .btn-next {
+  min-width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 4px;
+  padding: 0;
+  background-color: #f4f6f9;
+  color: #606266;
+  border: none;
+  margin: 0 3px;
+}
+
+/* Dialog Styling */
+::v-deep .el-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+::v-deep .el-dialog__header {
+  padding: 20px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eaecef;
+}
+
+::v-deep .el-dialog__title {
   font-weight: 600;
-  width: 140px;
+  color: #344767;
+  font-size: 18px;
 }
 
-.el-dialog table tr:hover {
-  background-color: #f8fbff;
+::v-deep .el-dialog__body {
+  padding: 24px;
+}
+
+::v-deep .el-dialog__footer {
+  padding: 16px 24px;
+  border-top: 1px solid #eaecef;
 }
 
 /* Dialog footer buttons */
 .dialog-footer .el-button {
-  padding: 10px 25px;
+  padding: 8px 20px;
+  min-width: 90px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border-radius: 6px;
+}
+
+.dialog-footer .el-button+.el-button {
+  margin-left: 12px;
+}
+
+/* Position Detail styling */
+.position-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 16px;
+  margin-bottom: 0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #344767;
+  font-size: 15px;
+}
+
+.detail-value {
+  color: #5a6a85;
   font-size: 14px;
+  line-height: 1.6;
+}
+
+.description-content {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #eaecef;
+}
+
+.description-content ::v-deep p {
+  margin-bottom: 10px;
+}
+
+.description-content ::v-deep ul,
+.description-content ::v-deep ol {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.description-content ::v-deep img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 </style>
