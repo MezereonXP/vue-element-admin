@@ -295,6 +295,38 @@ export default {
   color: #8994A6;
 }
 
+/* Collapsed sidebar icon styling */
+:deep(.el-menu--collapse) {
+
+  .el-menu-item,
+  .el-submenu__title {
+    padding: 0 !important;
+    justify-content: center;
+    border-radius: 50% !important;
+    margin: 6px auto !important;
+    height: 36px !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+
+    .primevue-icon {
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+      font-size: 16px !important;
+    }
+
+    &:hover {
+      border-radius: 50% !important;
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    &.is-active {
+      border-radius: 50% !important;
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
 /* RESET ALL PREVIOUS OVERRIDES */
 /* Specific fix for submenu active styles */
 :deep(.el-menu) {

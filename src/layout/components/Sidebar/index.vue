@@ -113,6 +113,14 @@ export default {
   &.el-menu--collapse {
     width: 54px;
 
+    .el-menu-item,
+    .el-submenu__title {
+      padding: 0 !important;
+      margin: 6px auto !important;
+      width: 36px !important;
+      min-width: 36px !important;
+    }
+
     .el-submenu__icon-arrow {
       display: none;
     }

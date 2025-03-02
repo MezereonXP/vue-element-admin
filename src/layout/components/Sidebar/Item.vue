@@ -79,4 +79,51 @@ export default {
   color: white;
   opacity: 1;
 }
+
+/* Collapsed menu icon styling */
+.el-menu--collapse {
+  .primevue-icon {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    font-size: 16px !important;
+    vertical-align: middle !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: translateY(0) !important;
+  }
+
+  .el-menu-item,
+  .el-submenu__title {
+    &.is-active .primevue-icon {
+      color: white !important;
+      opacity: 1;
+    }
+  }
+
+  .svg-icon {
+    margin-top: 40% !important;
+  }
+}
+
+.el-submenu__title--collapse {
+  .primevue-icon {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    font-size: 16px !important;
+    position: relative !important;
+  }
+
+  .svg-icon .primevue-icon {
+    margin-top: 40% !important;
+  }
+}
 </style>
