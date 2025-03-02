@@ -51,18 +51,26 @@
 
     <el-row :gutter="32" style="margin-top: 32px;">
       <el-col :xs="5" :sm="5" :lg="5">
-        <el-card v-loading="isSchoolOverviewLoading" style="height: 100%;">
+        <el-card style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">学校概况</span>
           <el-link type="info" style="font-size: 12px; float: right;" @click="gotoSchoolOverview"> 查看更多>></el-link>
           <br>
           <br>
+          <div v-if="isSchoolOverviewLoading" class="skeleton-container">
+            <div v-for="i in 2" :key="'school-skeleton-' + i" class="skeleton-item">
+              <div class="skeleton-title" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-date" />
+            </div>
+          </div>
           <div
-            v-if="isSchoolOverviewEmpty"
+            v-else-if="isSchoolOverviewEmpty"
             style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
           >
             暂无数据
           </div>
-          <div>
+          <div v-else>
             <div v-for="item in schoolOverviewData" :key="item.id">
               <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoSchoolIntro(item.id)">{{
                 item.title }}</el-link>
@@ -86,15 +94,23 @@
         </el-card>
       </el-col>
       <el-col :xs="5" :sm="5" :lg="5">
-        <el-card v-loading="isLawLoading" style="height: 100%;">
+        <el-card style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">法律法规文件制度</span>
           <el-link type="info" style="font-size: 12px; float: right;" @click="gotoLaw"> 查看更多>></el-link>
           <br>
           <br>
-          <div v-if="isLawEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
+          <div v-if="isLawLoading" class="skeleton-container">
+            <div v-for="i in 2" :key="'law-skeleton-' + i" class="skeleton-item">
+              <div class="skeleton-title" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-date" />
+            </div>
+          </div>
+          <div v-else-if="isLawEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
             暂无数据
           </div>
-          <div>
+          <div v-else>
             <div v-for="item in lawData" :key="item.id">
               <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoLawIntro(item.id)">{{
                 item.title }}</el-link>
@@ -118,15 +134,26 @@
         </el-card>
       </el-col>
       <el-col :xs="5" :sm="5" :lg="5">
-        <el-card v-loading="isApprovalLoading" style="height: 100%;">
+        <el-card style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">实习审批报备管理</span>
           <el-link type="info" style="font-size: 12px; float: right;" @click="gotoApproval"> 查看更多>></el-link>
           <br>
           <br>
-          <div v-if="isApprovalEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
+          <div v-if="isApprovalLoading" class="skeleton-container">
+            <div v-for="i in 2" :key="'approval-skeleton-' + i" class="skeleton-item">
+              <div class="skeleton-title" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-date" />
+            </div>
+          </div>
+          <div
+            v-else-if="isApprovalEmpty"
+            style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
+          >
             暂无数据
           </div>
-          <div>
+          <div v-else>
             <div v-for="item in approvalData" :key="item.id">
               <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoApprovalIntro(item.id)">{{
                 item.title }}</el-link>
@@ -150,15 +177,26 @@
         </el-card>
       </el-col>
       <el-col :xs="5" :sm="5" :lg="5">
-        <el-card v-loading="isReportLoading" style="height: 100%;">
+        <el-card style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">企业考察报告</span>
           <el-link type="info" style="font-size: 12px; float: right;" @click="gotoReport"> 查看更多>></el-link>
           <br>
           <br>
-          <div v-if="isReportEmpty" style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;">
+          <div v-if="isReportLoading" class="skeleton-container">
+            <div v-for="i in 2" :key="'report-skeleton-' + i" class="skeleton-item">
+              <div class="skeleton-title" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-date" />
+            </div>
+          </div>
+          <div
+            v-else-if="isReportEmpty"
+            style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
+          >
             暂无数据
           </div>
-          <div>
+          <div v-else>
             <div v-for="item in reportData" :key="item.id">
               <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoReportIntro(item.id)">{{
                 item.title }}</el-link>
@@ -184,18 +222,27 @@
     </el-row>
     <el-row :gutter="32" style="margin-top: 32px;">
       <el-col :xs="5" :sm="5" :lg="5">
-        <el-card v-loading="isInternshipLoading" style="height: 100%;">
+        <el-card style="height: 100%;">
           <span style="font-size: 16px; font-weight: bold; display: inline-block;">实习岗位</span>
           <el-link type="info" style="font-size: 12px; float: right;" @click="gotoInternship"> 查看更多>></el-link>
           <br>
           <br>
+          <div v-if="isInternshipLoading" class="skeleton-container">
+            <div v-for="i in 2" :key="'internship-skeleton-' + i" class="skeleton-item">
+              <div class="skeleton-title" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-text" />
+              <div class="skeleton-date" />
+            </div>
+          </div>
           <div
-            v-if="isInternshipEmpty"
+            v-else-if="isInternshipEmpty"
             style="text-align: center; vertical-align: middle; font-size: 16px; color: #999;"
           >
             暂无数据
           </div>
-          <div>
+          <div v-else>
             <div v-for="item in jobData" :key="item.id">
               <el-link type="primary" style="font-size: 16px; font-weight: bold;" @click="gotoJobIntro(item.id)">{{
                 item.title }}</el-link>
@@ -300,6 +347,11 @@ export default {
     this.$nextTick(() => {
       setTimeout(() => {
         this.getSchoolOverviewData()
+        this.isSchoolOverviewLoading = true
+        this.isLawLoading = true
+        this.isApprovalLoading = true
+        this.isReportLoading = true
+        this.isInternshipLoading = true
 
         // Stagger API calls to avoid overwhelming the browser
         setTimeout(() => { this.getLawData() }, 100)
@@ -760,6 +812,68 @@ export default {
 
     &:hover {
       padding-right: 20px;
+    }
+  }
+
+  // Skeleton styles
+  .skeleton-container {
+    padding: 0;
+  }
+
+  .skeleton-item {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton-title {
+    width: 60%;
+    height: 20px;
+    background: #f2f2f2;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-text {
+    width: 100%;
+    height: 10px;
+    background: #f2f2f2;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-text:last-of-type {
+    width: 80%;
+  }
+
+  .skeleton-date {
+    width: 120px;
+    height: 20px;
+    background: #f2f2f2;
+    margin-left: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      opacity: 0.6;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+
+    100% {
+      opacity: 0.6;
     }
   }
 }
