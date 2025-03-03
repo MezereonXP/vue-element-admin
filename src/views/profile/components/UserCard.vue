@@ -19,7 +19,13 @@
           :on-change="handleAvatarChange"
           :auto-upload="false">
         </el-upload> -->
-        <img v-if="user.avatar" :src="user.avatar" class="avatar">
+        <!-- <img v-if="user.avatar" :src="user.avatar" class="avatar"> -->
+        <MyAvatar
+          size="130"
+          icon="el-icon-user"
+          :background-color="getRoleAvatarBgColor()"
+          :color="getRoleAvatarColor()"
+        />
         <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
         <!-- </el-upload> -->
       </div>
@@ -67,10 +73,12 @@
 <script>
 // import PanThumb from '@/components/PanThumb'
 import { uploadAvatar } from '@/api/user'
+import MyAvatar from '@/components/MyAvatar'
+import { mapGetters } from 'vuex'
 // import user from 'mock/user';
 
 export default {
-  components: { },
+  components: { MyAvatar },
   props: {
     user: {
       type: Object,
@@ -108,6 +116,25 @@ export default {
         this.user.avatar = res.data.avatar_url
       })
     }
+  },
+  computed: {
+    ...mapGetters([
+      'roles'
+    ])
+  },
+  methods: {
+    getRoleAvatarBgColor() {
+      if (this.roles.includes('admin')) {
+        return '#ece9fc'
+      }
+      return '#e2e8f0'
+    },
+    getRoleAvatarColor() {
+      if (this.roles.includes('admin')) {
+        return '#2a1261'
+      }
+      return '#475569'
+    }
   }
 }
 </script>
@@ -119,9 +146,11 @@ export default {
   cursor: pointer;
   position: relative;
 }
+
 .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
+
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -130,12 +159,12 @@ export default {
   line-height: 178px;
   text-align: center;
 }
-.avatar {
+
+.my-avatar {
   width: 178px;
   height: 178px;
-  border-radius: 50%;
-  display: block;
 }
+
 .box-center {
   margin: 0 auto;
   display: table;

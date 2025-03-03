@@ -52,14 +52,6 @@ import { searchAttendance } from '@/api/user'
 import moment from 'moment'
 export default {
   name: 'StudentAttendance',
-  computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
-      'roles',
-      'id'
-    ])
-  },
   data() {
     return {
       tableData: [],
@@ -69,6 +61,14 @@ export default {
       total: 0,
       search: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'name',
+      'avatar',
+      'roles',
+      'id'
+    ])
   },
   created() {
     this.searchAttendance()
@@ -117,7 +117,7 @@ export default {
 
 /* Card Styling */
 .main-card {
-  width: 60%;
+  width: 90%;
   border-radius: 12px;
   box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
   background-color: #fff;

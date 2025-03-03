@@ -46,7 +46,7 @@
 
       <el-pagination
         background
-        layout="total, sizes, prev, pager, next, jumper"
+        :layout="isMobileView ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
         :total="total"
         :page-size="limit"
         :current-page="page"
@@ -62,7 +62,7 @@
       :visible.sync="editorVisible"
       :title="transTitle"
       custom-class="custom-dialog"
-      width="60%"
+      :width="isMobileView ? '95%' : '60%'"
       :close-on-click-modal="false"
       :before-close="handleCloseDialog"
     >
@@ -140,7 +140,8 @@ export default {
         title: '',
         content: ''
       },
-      transTitle: ''
+      transTitle: '',
+      windowWidth: window.innerWidth
     }
   },
   computed: {
@@ -152,13 +153,26 @@ export default {
     isFormValid() {
       return this.form.title && this.form.title.trim() !== '' &&
                 this.form.content && this.form.content.trim() !== ''
+    },
+    isMobileView() {
+      return this.windowWidth < 768
     }
   },
   created() {
     this.fetchData()
     this.checkUserRole()
+    window.addEventListener('resize', this.handleResize)
+  },
+  mounted() {
+    this.handleResize()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth
+    },
     async fetchData() {
       try {
         this.loading = true
@@ -394,7 +408,8 @@ export default {
 }
 
 .card-container {
-    width: 70%;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -402,6 +417,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .title {
@@ -411,6 +427,7 @@ export default {
     position: relative;
     padding-left: 12px;
     display: inline-block;
+    margin-bottom: 10px;
 }
 
 .title::before {
@@ -427,10 +444,22 @@ export default {
 
 .add-button {
     margin-left: auto;
+    margin-bottom: 10px;
 }
 
 .pagination {
     margin-top: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.pagination::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
 }
 
 .dialog-content {
@@ -467,6 +496,7 @@ export default {
     color: #409eff;
     text-decoration: none;
     font-weight: 500;
+    word-break: break-word;
 }
 
 .title-link:hover {
@@ -478,6 +508,8 @@ export default {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+    margin: 0 auto !important;
+    max-width: 90%;
 }
 
 ::v-deep .el-dialog__header {
@@ -534,6 +566,9 @@ export default {
 ::v-deep .el-pagination {
     padding: 0;
     font-weight: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 ::v-deep .el-pagination .el-select .el-input {
@@ -554,5 +589,141 @@ export default {
 
 ::v-deep .el-pagination .el-pagination__sizes {
     margin: 0 10px 0 0;
+}
+
+/* Responsive Table */
+::v-deep .el-table {
+    width: 100% !important;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+::v-deep .el-table::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+}
+
+::v-deep .el-table__body-wrapper {
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+::v-deep .el-table__body-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+}
+
+::v-deep .el-table__header-wrapper {
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+::v-deep .el-table__header-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .card-container {
+        width: 90%;
+    }
+
+    ::v-deep .el-form-item__label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card-container {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    ::v-deep .el-table {
+        font-size: 13px;
+    }
+
+    ::v-deep .el-button--small {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+    ::v-deep .el-dialog {
+        width: 95% !important;
+    }
+
+    ::v-deep .el-dialog__title {
+        font-size: 16px;
+    }
+
+    ::v-deep .el-dialog__body {
+        padding: 15px;
+    }
+
+    ::v-deep .el-pagination {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    ::v-deep .el-dialog__header,
+    ::v-deep .el-dialog__footer {
+        padding: 15px;
+    }
+
+    ::v-deep .el-dialog__body {
+        padding: 10px;
+    }
+
+    ::v-deep .el-table td,
+    ::v-deep .el-table th {
+        padding: 8px;
+    }
+
+    ::v-deep .el-pagination {
+        margin-top: 15px;
+    }
+
+    ::v-deep .el-pagination .btn-prev,
+    ::v-deep .el-pagination .btn-next {
+        margin: 0 3px;
+    }
+
+    ::v-deep .el-pagination .el-pager li {
+        min-width: 24px;
+    }
+
+    ::v-deep .el-input__inner,
+    ::v-deep .el-select .el-input__inner {
+        height: 38px;
+        padding: 8px 12px;
+    }
 }
 </style>
