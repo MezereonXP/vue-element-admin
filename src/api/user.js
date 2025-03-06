@@ -129,3 +129,25 @@ export function uploadImg(data) {
     data
   })
 }
+
+export function importStudents(data) {
+  return request({
+    url: '/user/import_from_excel',
+    method: 'post',
+    data
+  })
+}
+
+export function exportStudents() {
+  return request({
+    url: '/user/export_to_excel',
+    method: 'get'
+  })
+}
+
+export function downloadTemplate() {
+  return request({
+    url: '/user/download_template',
+    method: 'get'
+  })
+}

@@ -11,6 +11,11 @@
           <el-button type="info" class="action-button refresh-button" @click="refresh">
             <i :class="['el-icon-refresh', { 'is-refreshing': isRefreshing }]" /> 刷新
           </el-button>
+
+          <el-button type="primary" icon="el-icon-upload" @click="importStudentsFromExcel">导入</el-button>
+          <el-button type="primary" icon="el-icon-download" @click="exportStudentsToExcel">导出</el-button>
+          <el-button type="primary" icon="el-icon-download" @click="downloadExcelTemplate">下载模板</el-button>
+
         </div>
       </div>
 
@@ -27,9 +32,10 @@
           <el-button type="primary" class="search-button" @click="searchStudent">查找</el-button>
         </div>
 
-        <div class="filter-options">
-          <!-- You could add filter dropdowns here in the future -->
-        </div>
+        <!-- <div class="filter-options"> -->
+        <!-- You could add filter dropdowns here in the future -->
+        <!-- </div> -->
+
       </div>
 
       <div class="table-container">
@@ -166,7 +172,7 @@
 </template>
 
 <script>
-import { getUserList, updateProfile, createUser, deleteUser, searchUser } from '@/api/user'
+import { getUserList, updateProfile, createUser, deleteUser, searchUser, downloadTemplate, importStudents, exportStudents } from '@/api/user'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 export default {
   name: 'StudentList',
@@ -323,6 +329,43 @@ export default {
       setTimeout(() => {
         this.isRefreshing = false
       }, 500)
+    },
+    importStudentsFromExcel() {
+      // open file input
+      const fileInput = document.createElement('input')
+      fileInput.type = 'file'
+      fileInput.accept = '.xlsx, .xls, .csv'
+      fileInput.onchange = (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('file', file)
+        importStudents(formData).then(res => {
+          if (res.code === 20000) {
+            this.$message.success(res.message)
+            this.getStudentList()
+          }
+        })
+      }
+      fileInput.click()
+    },
+    exportStudentsToExcel() {
+      exportStudents().then(res => {
+        if (res.code === 20000) {
+          this.$message.success(res.message)
+          window.open(res.url, '_blank')
+        } else {
+          this.$message.error('导出失败')
+        }
+      })
+    },
+    downloadExcelTemplate() {
+      downloadTemplate().then(res => {
+        if (res.code === 20000) {
+          window.open(res.url, '_blank')
+        } else {
+          this.$message.error('下载模板失败')
+        }
+      })
     }
   }
 }
